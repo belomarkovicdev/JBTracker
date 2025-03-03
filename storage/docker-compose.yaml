@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:latest
+    container_name: redis-container
+    ports:
+      - "6379:6379"  # Mapira port 6379 sa portom na vašem računaru
+    volumes:
+      - redis-data:/data  # Persistentna memorija za Redis
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo-container
+    ports:
+      - "27017:27017"  # Mapira port 27017 sa portom na vašem računaru
+    volumes:
+      - mongo-data:/data/db  # Persistentna memorija za MongoDB
+
+# Definisanje volumen-a za trajno skladištenje podataka
+volumes:
+  redis-data:
+  mongo-data:
