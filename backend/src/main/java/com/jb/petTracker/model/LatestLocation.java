@@ -1,6 +1,7 @@
 package com.jb.petTracker.model;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 
 public class LatestLocation implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -8,18 +9,18 @@ public class LatestLocation implements Serializable {
 	private double latitude;
 	private double longitude;
 	private float speed;
-	private long timestamp;
+	private LocalTime timestamp;
 
 	public LatestLocation() {
 		super();
 	}
 
-	public LatestLocation(Long deviceId, double latitude, double longitude, float speed) {
+	public LatestLocation(Long deviceId, double latitude, double longitude, float speed, LocalTime timestamp) {
 		this.deviceId = deviceId;
 		this.latitude = latitude;
 		this.longitude = longitude;
 		this.speed = speed;
-		this.timestamp = System.currentTimeMillis();
+		this.timestamp = timestamp;
 	}
 
 	public LatestLocation(Location location) {
@@ -61,11 +62,11 @@ public class LatestLocation implements Serializable {
 		this.speed = speed;
 	}
 
-	public long getTimestamp() {
+	public LocalTime getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(long timestamp) {
+	public void setTimestamp(LocalTime timestamp) {
 		this.timestamp = timestamp;
 	}
 }

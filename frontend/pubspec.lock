@@ -100,7 +100,7 @@ packages:
     source: sdk
     version: "0.0.0"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       sha256: fe7ab022b76f3034adc518fb6ea04a82387620e19977665ea18d30a1cf43442f
@@ -119,18 +119,10 @@ packages:
     dependency: transitive
     description:
       name: intl
-      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      sha256: "3df61194eb431efc39c4ceba583b95633a403f46c9fd341e550ce0bfa50e9aa5"
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
-  js:
-    dependency: transitive
-    description:
-      name: js
-      sha256: f2c445dce49627136094980615a031419f7f3eb393237e4ecd97ac15dea343f3
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.7"
+    version: "0.20.2"
   latlong2:
     dependency: "direct main"
     description:
@@ -187,14 +179,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0"
-  logging:
-    dependency: transitive
-    description:
-      name: logging
-      sha256: c8245ada5f1717ed44271ed1c26b8ce85ca3228fd2ffdb75468ab01979309d61
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.0"
   matcher:
     dependency: transitive
     description:
@@ -227,14 +211,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  nested:
-    dependency: transitive
-    description:
-      name: nested
-      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.0"
   path:
     dependency: transitive
     description:
@@ -259,27 +235,11 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
-  provider:
-    dependency: "direct main"
-    description:
-      name: provider
-      sha256: c8a055ee5ce3fd98d6fc872478b03823ffdb448699c6ebdbbc71d59b596fd48c
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.1.2"
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
-  sockjs_client_wrapper:
-    dependency: "direct main"
-    description:
-      name: sockjs_client_wrapper
-      sha256: b050d45334a1a22d49276b71f4c73fc6a62a8b9d6025624ccc4c4835fd492937
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.0"
   source_span:
     dependency: transitive
     description:
@@ -296,6 +256,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.12.1"
+  stomp_dart_client:
+    dependency: "direct main"
+    description:
+      name: stomp_dart_client
+      sha256: "9ca00600a212f1e08fda614cf6815437829b1d08d8911ff5c798f130a2fa2d59"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.3"
   stream_channel:
     dependency: transitive
     description:
@@ -360,14 +328,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "14.3.1"
-  w_common:
-    dependency: transitive
-    description:
-      name: w_common
-      sha256: "4daab34b1c414a2d3e3881ac53c473587b30961e0432acc4474e45dc5f48ea1e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
   web:
     dependency: transitive
     description:

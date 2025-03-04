@@ -3,6 +3,7 @@ package com.jb.petTracker.controller;
 import java.util.List;
 
 import org.springframework.data.geo.Point;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +30,7 @@ public class LocationController {
 	}
 
     @PostMapping()
+    @SendTo("/topic/location")
     public void receiveLocation(@ModelAttribute TraccarLocationDTO traccarLocationDTO) {
     	Location location = new Location(
     			traccarLocationDTO.getId(),
