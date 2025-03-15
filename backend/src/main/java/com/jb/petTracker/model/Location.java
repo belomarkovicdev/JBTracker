@@ -1,5 +1,7 @@
 package com.jb.petTracker.model;
 
+import java.time.LocalTime;
+
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.persistence.Id;
@@ -9,7 +11,7 @@ public class Location {
 	@Id
 	private Long id;
 	private Point location;
-	private long timestamp;
+	private LocalTime timestamp;
 	private double accuracy;
 	private String batt;
 
@@ -29,11 +31,11 @@ public class Location {
 		this.location = location;
 	}
 
-	public long getTimestamp() {
+	public LocalTime getTimestamp() {
 		return timestamp;
 	}
 
-	public void setTimestamp(long timestamp) {
+	public void setTimestamp(LocalTime timestamp) {
 		this.timestamp = timestamp;
 	}
 

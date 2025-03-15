@@ -3,6 +3,8 @@ package com.jb.petTracker.controller;
 import java.util.List;
 
 import org.springframework.data.geo.Point;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,12 +22,15 @@ import com.jb.petTracker.service.LocationService;
 public class LocationController {
 	
 	private final LocationService locationService;
-	
-	public LocationController(LocationService locationService) {
+    private final SimpMessagingTemplate messagingTemplate;
+
+	public LocationController(LocationService locationService, SimpMessagingTemplate messagingTemplate) {
 		this.locationService = locationService;
+		this.messagingTemplate = messagingTemplate;
 	}
 
     @PostMapping()
+    @SendTo("/topic/location")
     public void receiveLocation(@ModelAttribute TraccarLocationDTO traccarLocationDTO) {
     	Location location = new Location(
     			traccarLocationDTO.getId(),
@@ -33,6 +38,8 @@ public class LocationController {
     			traccarLocationDTO.getAccuracy(),
     			traccarLocationDTO.getBatt()
     			);
+    	System.out.println(location);
+        messagingTemplate.convertAndSend("/topic/location", location);
         locationService.saveLocation(location);
     }
     
@@ -42,6 +49,7 @@ public class LocationController {
     }
 
     @GetMapping("/history/{id}")
+//    ne radi zato sto se ne duplira @Id
     public List<Location> getLocationHistory(@PathVariable Long id) {
         return locationService.getLocationHistory(id);
     }
