@@ -2,7 +2,6 @@ package com.jb.petTracker.controller;
 
 import java.util.List;
 
-import org.springframework.data.geo.Point;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,44 +12,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jb.petTracker.dto.TraccarLocationDTO;
-import com.jb.petTracker.model.LatestLocation;
 import com.jb.petTracker.model.Location;
+import com.jb.petTracker.model.LocationDetails;
 import com.jb.petTracker.service.LocationService;
 
 @RestController
 @RequestMapping("/api/location")
 public class LocationController {
-	
+
 	private final LocationService locationService;
-    private final SimpMessagingTemplate messagingTemplate;
+	private final SimpMessagingTemplate messagingTemplate;
 
 	public LocationController(LocationService locationService, SimpMessagingTemplate messagingTemplate) {
 		this.locationService = locationService;
 		this.messagingTemplate = messagingTemplate;
 	}
 
-    @PostMapping()
-    @SendTo("/topic/location")
-    public void receiveLocation(@ModelAttribute TraccarLocationDTO traccarLocationDTO) {
-    	Location location = new Location(
-    			traccarLocationDTO.getId(),
-    			new Point(traccarLocationDTO.getLat(),traccarLocationDTO.getLon()),
-    			traccarLocationDTO.getAccuracy(),
-    			traccarLocationDTO.getBatt()
-    			);
-    	System.out.println(location);
-        messagingTemplate.convertAndSend("/topic/location", location);
-        locationService.saveLocation(location);
-    }
-    
-    @GetMapping("/latest/{id}")
-    public LatestLocation getLatestLocation(@PathVariable Long id) {
-        return locationService.getLatestLocation(id);
-    }
+	@PostMapping()
+	@SendTo("/topic/location")
+	public void receiveLocation(@ModelAttribute TraccarLocationDTO traccarLocationDTO) {
+		LocationDetails location = new LocationDetails(traccarLocationDTO);
+		System.out.println(location);
+		messagingTemplate.convertAndSend("/topic/location", location);
+		locationService.saveLocation(location);
+	}
 
-    @GetMapping("/history/{id}")
+	@GetMapping("/latest/{id}")
+	public Location getLatestLocation(@PathVariable String id) {
+		return locationService.getLatestLocation(id);
+	}
+
+	@GetMapping("/history/{id}")
 //    ne radi zato sto se ne duplira @Id
-    public List<Location> getLocationHistory(@PathVariable Long id) {
-        return locationService.getLocationHistory(id);
-    }
+	public List<LocationDetails> getLocationHistory(@PathVariable Long id) {
+		return locationService.getLocationHistory(id);
+	}
 }

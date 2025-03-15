@@ -1,34 +1,61 @@
 package com.jb.petTracker.model;
 
+import java.time.Instant;
 import java.time.LocalTime;
+import java.time.ZoneId;
 
 import org.springframework.data.geo.Point;
-import org.springframework.data.mongodb.core.mapping.Document;
-import jakarta.persistence.Id;
 
-@Document(collection = "locations")
-public class Location {
-	@Id
-	private Long id;
-	private Point location;
+import com.jb.petTracker.dto.TraccarLocationDTO;
+
+public abstract class Location {
+	private String id;
+	private String deviceId;
+	private Point coordinates;
 	private LocalTime timestamp;
-	private double accuracy;
-	private String batt;
 
-	public Long getId() {
+	public Location() {
+		super();
+	}
+
+	public Location(String id, String deviceId, Point coordinates, LocalTime timestamp) {
+		super();
+		this.id = id;
+		this.deviceId = deviceId;
+		this.coordinates = coordinates;
+		this.timestamp = timestamp;
+	}
+
+	public Location(TraccarLocationDTO traccarLocation) {
+		super();
+		this.id = traccarLocation.getId();
+		this.deviceId = traccarLocation.getId();
+		this.coordinates = new Point(traccarLocation.getLat(), traccarLocation.getLon());
+		this.timestamp = Instant.ofEpochMilli(traccarLocation.getTimestamp()).atZone(ZoneId.of("UTC")).toLocalTime();
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Point getLocation() {
-		return location;
+	public String getDeviceId() {
+		return deviceId;
 	}
 
-	public void setLocation(Point location) {
-		this.location = location;
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
+	}
+
+	public Point getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(Point coordinates) {
+		this.coordinates = coordinates;
 	}
 
 	public LocalTime getTimestamp() {
@@ -39,37 +66,9 @@ public class Location {
 		this.timestamp = timestamp;
 	}
 
-	public double getAccuracy() {
-		return accuracy;
-	}
-
-	public void setAccuracy(double accuracy) {
-		this.accuracy = accuracy;
-	}
-
-	public String getBatt() {
-		return batt;
-	}
-
-	public void setBatt(String batt) {
-		this.batt = batt;
-	}
-
 	@Override
 	public String toString() {
-		return "Location [id=" + id + ", location=" + location + ", timestamp=" + timestamp + ", accuracy=" + accuracy
-				+ ", batt=" + batt + "]";
+		return "Location [id=" + id + ", deviceId=" + deviceId + ", coordinates=" + coordinates + ", timestamp="
+				+ timestamp + "]";
 	}
-
-	public Location() {
-		super();
-	}
-
-	public Location(Long id, Point location, double accuracy, String batt) {
-		this.id = id;
-		this.location = location;
-		this.accuracy = accuracy;
-		this.batt = batt;
-	}
-
 }

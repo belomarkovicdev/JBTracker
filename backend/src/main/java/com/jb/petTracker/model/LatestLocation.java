@@ -1,57 +1,18 @@
 package com.jb.petTracker.model;
 
-import java.io.Serializable;
-import java.time.LocalTime;
 
-public class LatestLocation implements Serializable {
-	private static final long serialVersionUID = 1L;
-	private Long deviceId;
-	private double latitude;
-	private double longitude;
+public class LatestLocation extends Location {
 	private float speed;
-	private LocalTime timestamp;
 
 	public LatestLocation() {
 		super();
 	}
 
-	public LatestLocation(Long deviceId, double latitude, double longitude, float speed, LocalTime timestamp) {
-		this.deviceId = deviceId;
-		this.latitude = latitude;
-		this.longitude = longitude;
+	public LatestLocation(float speed) {
 		this.speed = speed;
-		this.timestamp = timestamp;
 	}
 
-	public LatestLocation(Location location) {
-		this.deviceId = location.getId();
-		this.latitude = location.getLocation().getX();
-		this.longitude = location.getLocation().getY();
-		this.timestamp = location.getTimestamp();
-	}
-
-	public Long getDeviceId() {
-		return deviceId;
-	}
-
-	public void setDeviceId(Long deviceId) {
-		this.deviceId = deviceId;
-	}
-
-	public double getLatitude() {
-		return latitude;
-	}
-
-	public void setLatitude(double latitude) {
-		this.latitude = latitude;
-	}
-
-	public double getLongitude() {
-		return longitude;
-	}
-
-	public void setLongitude(double longitude) {
-		this.longitude = longitude;
+	public LatestLocation(LocationDetails location) {
 	}
 
 	public float getSpeed() {
@@ -60,13 +21,5 @@ public class LatestLocation implements Serializable {
 
 	public void setSpeed(float speed) {
 		this.speed = speed;
-	}
-
-	public LocalTime getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(LocalTime timestamp) {
-		this.timestamp = timestamp;
 	}
 }
