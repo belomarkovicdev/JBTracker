@@ -5,11 +5,22 @@ public class TraccarLocationDTO {
 	private double lat;
 	private double lon;
 	private long timestamp;
-	private double speed;
-	private double bearing;
-	private double altitude;
 	private double accuracy;
 	private String batt;
+
+	public TraccarLocationDTO(String id, double lat, double lon, long timestamp, double accuracy, String batt) {
+		super();
+		this.id = id;
+		this.lat = lat;
+		this.lon = lon;
+		this.timestamp = timestamp;
+		this.accuracy = accuracy;
+		this.batt = batt;
+	}
+
+	public TraccarLocationDTO() {
+		super();
+	}
 
 	public String getId() {
 		return id;
@@ -43,30 +54,6 @@ public class TraccarLocationDTO {
 		this.timestamp = timestamp;
 	}
 
-	public double getSpeed() {
-		return speed;
-	}
-
-	public void setSpeed(double speed) {
-		this.speed = speed;
-	}
-
-	public double getBearing() {
-		return bearing;
-	}
-
-	public void setBearing(double bearing) {
-		this.bearing = bearing;
-	}
-
-	public double getAltitude() {
-		return altitude;
-	}
-
-	public void setAltitude(double altitude) {
-		this.altitude = altitude;
-	}
-
 	public double getAccuracy() {
 		return accuracy;
 	}
@@ -83,10 +70,4 @@ public class TraccarLocationDTO {
 		this.batt = batt;
 	}
 
-	@Override
-	public String toString() {
-		return "TraccarLocationDTO [id=" + id + ", lat=" + lat + ", lon=" + lon + ", timestamp=" + timestamp
-				+ ", speed=" + speed + ", bearing=" + bearing + ", altitude=" + altitude + ", accuracy=" + accuracy
-				+ ", batt=" + batt + "]";
-	}
 }

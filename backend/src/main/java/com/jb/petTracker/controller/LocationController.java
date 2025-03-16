@@ -32,7 +32,6 @@ public class LocationController {
 	@SendTo("/topic/location")
 	public void receiveLocation(@ModelAttribute TraccarLocationDTO traccarLocationDTO) {
 		LocationDetails location = new LocationDetails(traccarLocationDTO);
-		System.out.println(location);
 		messagingTemplate.convertAndSend("/topic/location", location);
 		locationService.saveLocation(location);
 	}

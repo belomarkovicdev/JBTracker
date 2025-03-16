@@ -17,7 +17,15 @@ class StompSocket {
 
   Future<void> connect() async {
     _socket = await WebSocket.connect(hostname);
-    _socket.listen(_updateReceived);
+    _socket.listen(
+      _updateReceived,
+      onError: (error) {
+        print("WebSocket error: $error");
+      },
+      onDone: () {
+        print("WebSocket connection closed");
+      },
+    );
 
     _socket.add(_buildConnectString());
     _socket.add(_buildSubscribeString());
@@ -25,34 +33,50 @@ class StompSocket {
 
   void disconnect() {
     _socket.add(_buildDisconnectString());
-    // actually we should close the socket after we received the response from the server...
-    // so this is not perfect...
-    //_socket.close();
+    _socket.listen(
+      (data) {
+        final lines = data.toString().split('\n');
+        if (lines.isNotEmpty && lines[0] == 'RECEIPT') {
+          _socket.close();
+        }
+      },
+      onError: (error) {
+        print("Error during disconnection: $error");
+      },
+      onDone: () {
+        print("Disconnected from WebSocket");
+      },
+    );
   }
 
   void _updateReceived(dynamic data) {
     final lines = data.toString().split('\n');
-    if (lines.length != 0) {
+    if (lines.isNotEmpty) {
       final command = lines[0];
 
       if (command == "RECEIPT") {
-        // typically this message comes after we send the command in the disconnect() method
         _socket.close();
       } else if (command == "CONNECTED") {
         print('Connected successfully to $destination @ $hostname');
       } else if (command == "MESSAGE") {
-        final indexOfBody = lines.indexWhere((line) => line.length == 0) + 1;
-
-        // we dont want the last character, since it is weird.
-        final bodyLine = lines[indexOfBody].substring(
-          0,
-          lines[indexOfBody].length - 1,
-        );
-
-        Map<String, dynamic> json = jsonDecode(bodyLine);
-        callback(json);
+        final indexOfBody = lines.indexWhere((line) => line.isEmpty) + 1;
+        if (indexOfBody < lines.length) {
+          final bodyLine = lines[indexOfBody];
+          try {
+            Map<String, dynamic> json = jsonDecode(bodyLine);
+            callback(json);
+          } catch (e) {
+            print("Error parsing message body: $e");
+          }
+        }
       }
     }
+  }
+
+  void reconnect() async {
+    print("Attempting to reconnect...");
+    await Future.delayed(Duration(seconds: 5)); // Reconnect after 5 seconds
+    await connect();
   }
 
   String _buildConnectString() {
