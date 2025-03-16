@@ -1,24 +1,27 @@
-import 'package:frontend/model/location.model.dart';
+import 'package:frontend/model/Location.model.dart';
 
 class LocationData {
-  final String deviceId;
+  final String id;
   final Coordinates coordinates;
   final double accuracy;
   final String batt;
+  final String timestamp;
 
   LocationData({
-    required this.deviceId,
+    required this.id,
     required this.coordinates,
     required this.accuracy,
     required this.batt,
+    required this.timestamp,
   });
 
   factory LocationData.fromJson(Map<String, dynamic> json) {
     return LocationData(
-      deviceId: json['id'].toString(), // Extract deviceId from the JSON
+      id: json['id'].toString(), // Extract deviceId from the JSON
       coordinates: Coordinates.fromJson(json['coordinates']),
+      timestamp: json['timestamp'].toString(),
       accuracy: json['accuracy'],
-      batt: json['batt'],
+      batt: json['battery'],
     );
   }
 }

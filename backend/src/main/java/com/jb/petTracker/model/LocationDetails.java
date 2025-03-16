@@ -11,22 +11,22 @@ import com.jb.petTracker.dto.TraccarLocationDTO;
 public class LocationDetails extends Location {
 
 	private double accuracy;
-	private String batt;
+	private String battery;
 
 	public LocationDetails() {
 		super();
 	}
 
-	public LocationDetails(double accuracy, String batt) {
+	public LocationDetails(double accuracy, String battery) {
 		super();
 		this.accuracy = accuracy;
-		this.batt = batt;
+		this.battery = battery;
 	}
 
-	public LocationDetails(TraccarLocationDTO traccarLocation) {
-		super(traccarLocation);
-		this.accuracy = traccarLocation.getAccuracy();
-		this.batt = traccarLocation.getBatt();
+	public LocationDetails(TraccarLocationDTO traccarLocationDTO) {
+		super(traccarLocationDTO);
+		this.accuracy = traccarLocationDTO.getAccuracy();
+		this.battery = traccarLocationDTO.getBatt();
 	}
 
 	public double getAccuracy() {
@@ -37,17 +37,17 @@ public class LocationDetails extends Location {
 		this.accuracy = accuracy;
 	}
 
-	public String getBatt() {
-		return batt;
+	public String getBattery() {
+		return battery;
 	}
 
-	public void setBatt(String batt) {
-		this.batt = batt;
+	public void setBattery(String battery) {
+		this.battery = battery;
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + "LocationDetails [accuracy=" + accuracy + ", batt=" + batt + "]";
+		return super.toString() + "LocationDetails [accuracy=" + accuracy + ", battery=" + battery + "]";
 	}
 
 }

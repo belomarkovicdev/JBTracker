@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:frontend/model/device_location.model.dart';
-import 'package:frontend/model/location.model.dart';
-import 'package:frontend/model/location_data.model.dart';
-import 'package:frontend/service/location_service.dart';
+import 'package:frontend/model/DeviceLocation.model.dart';
+import 'package:frontend/model/Location.model.dart';
+import 'package:frontend/model/LocationData.model.dart';
+import 'package:frontend/service/LocationService.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:stomp_dart_client/stomp_dart_client.dart';
 
@@ -31,7 +31,6 @@ class _MapScreenState extends State<MapScreen> {
     if (position != null) {
       setState(() {
         _currentPosition = position;
-        print(_currentPosition);
         deviceLocations['0'] = DeviceLocation(
           latitude: position.latitude,
           longitude: position.longitude,
@@ -53,14 +52,13 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  void saveLastPosition(String deviceId, Coordinates newLocation) {
-    if (!lastPositions.containsKey(deviceId)) {
-      lastPositions[deviceId] = [];
+  void saveLastPosition(String id, Coordinates newLocation) {
+    if (!lastPositions.containsKey(id)) {
+      lastPositions[id] = [];
     }
-    lastPositions[deviceId]!.add(LatLng(newLocation.x, newLocation.y));
-    // Keep only the last 10 positions
-    if (lastPositions[deviceId]!.length > maxLastLocations) {
-      lastPositions[deviceId]!.removeAt(0);
+    lastPositions[id]!.add(LatLng(newLocation.x, newLocation.y));
+    if (lastPositions[id]!.length > maxLastLocations) {
+      lastPositions[id]!.removeAt(0);
     }
   }
 
@@ -93,14 +91,14 @@ class _MapScreenState extends State<MapScreen> {
         Map<String, dynamic> jsonMap = jsonDecode(frame.body!);
         LocationData locationData = LocationData.fromJson(jsonMap);
         setState(() {
-          deviceLocations[locationData.deviceId] = DeviceLocation(
+          deviceLocations[locationData.id] = DeviceLocation(
             latitude: locationData.coordinates.x,
             longitude: locationData.coordinates.y,
             accuracy: locationData.accuracy,
             battery: locationData.batt,
           );
           saveLastPosition(
-            locationData.deviceId,
+            locationData.id,
             Coordinates(
               x: locationData.coordinates.x,
               y: locationData.coordinates.y,
@@ -148,8 +146,11 @@ class _MapScreenState extends State<MapScreen> {
       body: FlutterMap(
         mapController: mapController,
         options: MapOptions(
-          initialCenter: _currentPosition ?? LatLng(45.2671, 19.8335),
-          initialZoom: 15.0,
+          initialCenter: LatLng(
+            _currentPosition!.latitude,
+            _currentPosition!.longitude,
+          ),
+          initialZoom: 25.0,
         ),
         children: [
           TileLayer(urlTemplate: tileLayer, subdomains: ['a', 'b', 'c']),

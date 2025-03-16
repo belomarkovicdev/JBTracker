@@ -24,7 +24,7 @@ public class LocationService {
 	public void saveLocation(LocationDetails location) {
 		locationMongoRepository.save(location);
 		LatestLocation latestLocation = new LatestLocation(location);
-		locationRedisRepository.save(latestLocation, location.getDeviceId());
+		locationRedisRepository.save(latestLocation, location.getId());
 	}
 
 	public LatestLocation getLatestLocation(String id) {

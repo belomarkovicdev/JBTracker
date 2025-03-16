@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/screen/location_map_screen.dart';
+
+import 'screen/LocationMapScreen.dart';
 
 void main() {
   runApp(MyApp());
