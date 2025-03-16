@@ -40,7 +40,7 @@ class _MapScreenState extends State<MapScreen> {
         );
         saveLastPosition(
           '0',
-          Location(
+          Coordinates(
             x: _currentPosition!.latitude,
             y: _currentPosition!.longitude,
           ),
@@ -53,7 +53,7 @@ class _MapScreenState extends State<MapScreen> {
     }
   }
 
-  void saveLastPosition(String deviceId, Location newLocation) {
+  void saveLastPosition(String deviceId, Coordinates newLocation) {
     if (!lastPositions.containsKey(deviceId)) {
       lastPositions[deviceId] = [];
     }
@@ -94,14 +94,17 @@ class _MapScreenState extends State<MapScreen> {
         LocationData locationData = LocationData.fromJson(jsonMap);
         setState(() {
           deviceLocations[locationData.deviceId] = DeviceLocation(
-            latitude: locationData.location.x,
-            longitude: locationData.location.y,
+            latitude: locationData.coordinates.x,
+            longitude: locationData.coordinates.y,
             accuracy: locationData.accuracy,
             battery: locationData.batt,
           );
           saveLastPosition(
             locationData.deviceId,
-            Location(x: locationData.location.x, y: locationData.location.y),
+            Coordinates(
+              x: locationData.coordinates.x,
+              y: locationData.coordinates.y,
+            ),
           );
         });
       },
