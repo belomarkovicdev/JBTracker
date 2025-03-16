@@ -1,9 +1,6 @@
 package com.jb.petTracker.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,26 +10,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jb.petTracker.model.AuthRequest;
 import com.jb.petTracker.model.User;
+import com.jb.petTracker.service.AuthService;
 import com.jb.petTracker.service.JwtService;
-import com.jb.petTracker.service.UserInfoService;
+import com.jb.petTracker.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
 public class UserController {
-	private UserInfoService service;
+	private UserService userInfoService;
 	private JwtService jwtService;
-	private AuthenticationManager authenticationManager;
+	private AuthService authService;
 
-	public UserController(UserInfoService service, JwtService jwtService, AuthenticationManager authenticationManager) {
+	public UserController(UserService service, JwtService jwtService, AuthService authService) {
 		super();
-		this.service = service;
+		this.userInfoService = service;
 		this.jwtService = jwtService;
-		this.authenticationManager = authenticationManager;
+		this.authService = authService;
 	}
 
 	@PostMapping("/addNewUser")
 	public String addNewUser(@RequestBody User userInfo) {
-		return service.addUser(userInfo);
+		return userInfoService.addUser(userInfo);
 	}
 
 	@GetMapping("/user/userProfile")
@@ -49,9 +47,7 @@ public class UserController {
 
 	@PostMapping("/generateToken")
 	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-		if (authentication.isAuthenticated()) {
+		if (authService.isAuthenticated(authRequest)) {
 			return jwtService.generateToken(authRequest.getUsername());
 		} else {
 			throw new UsernameNotFoundException("Invalid user request!");

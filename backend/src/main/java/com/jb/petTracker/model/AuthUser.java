@@ -8,24 +8,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class UserInfoDetails implements UserDetails {
+public class AuthUser implements UserDetails {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private String username;
-	private String password;
+	private User user;
 	private List<GrantedAuthority> authorities;
 
-	public UserInfoDetails(User userInfo) {
-		this.username = userInfo.getUsername(); // Use email as username
-		this.password = userInfo.getPassword();
-		this.authorities = List.of(userInfo.getRoles().split(",")).stream().map(SimpleGrantedAuthority::new)
+	public AuthUser(User user) {
+		this.user = user;
+		this.authorities = List.of(user.getRoles().split(",")).stream().map(SimpleGrantedAuthority::new)
 				.collect(Collectors.toList());
 	}
 
-	public UserInfoDetails() {
+	public AuthUser() {
+		super();
 	}
 
 	@Override
@@ -35,7 +31,7 @@ public class UserInfoDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return username;
+		return user.getUsername();
 	}
 
 	@Override
@@ -60,6 +56,10 @@ public class UserInfoDetails implements UserDetails {
 
 	@Override
 	public String getPassword() {
-		return password;
+		return user.getPassword();
+	}
+
+	public User getUser() {
+		return user;
 	}
 }
