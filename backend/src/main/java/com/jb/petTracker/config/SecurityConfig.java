@@ -35,9 +35,14 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/ws/**","/mqtt/**","/auth/addNewUser", "/auth/generateToken", "/api/**").permitAll()
-                        .requestMatchers("/auth/user/**").hasAuthority("ROLE_USER")
-                        .requestMatchers("/auth/admin/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(
+                        		"/ws/**",
+                        		"/mqtt/**",
+                        		"/api/auth/addNewUser",
+                        		"/api/auth/generateToken"
+                        		).permitAll()
+                        .requestMatchers("/api/auth/user/**").hasAuthority("ROLE_USER")
+                        .requestMatchers("/api/auth/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

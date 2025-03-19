@@ -1,7 +1,8 @@
 package com.jb.petTracker.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +16,7 @@ import com.jb.petTracker.service.JwtService;
 import com.jb.petTracker.service.UserService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class UserController {
 	private UserService userInfoService;
 	private JwtService jwtService;
@@ -46,11 +47,11 @@ public class UserController {
 	}
 
 	@PostMapping("/generateToken")
-	public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+	public ResponseEntity<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
 		if (authService.isAuthenticated(authRequest)) {
-			return jwtService.generateToken(authRequest.getUsername());
+			return new ResponseEntity<>(jwtService.generateToken(authRequest.getUsername()),HttpStatus.OK);
 		} else {
-			throw new UsernameNotFoundException("Invalid user request!");
+			return new ResponseEntity<>("Invalid credentials",HttpStatus.UNAUTHORIZED);
 		}
 	}
 }
