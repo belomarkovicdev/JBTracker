@@ -74,7 +74,7 @@ class _MapScreenState extends State<MapScreen> {
   void connectToWebSocket() {
     stompClient = StompClient(
       config: StompConfig(
-        url: 'ws://localhost:8000/ws/websocket', // WebSocket URL
+        url: 'ws://192.168.1.5:8000/ws/websocket', // WebSocket URL
         onConnect: _onConnect,
         onWebSocketError: (dynamic error) => print("WebSocket Error: $error"),
       ),
@@ -143,21 +143,24 @@ class _MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Location Map")),
-      body: FlutterMap(
-        mapController: mapController,
-        options: MapOptions(
-          initialCenter: LatLng(
-            _currentPosition!.latitude,
-            _currentPosition!.longitude,
-          ),
-          initialZoom: 25.0,
-        ),
-        children: [
-          TileLayer(urlTemplate: tileLayer, subdomains: ['a', 'b', 'c']),
-          MarkerLayer(markers: getDeviceMarkers()),
-          PolylineLayer(polylines: getPolylines()),
-        ],
-      ),
+      body:
+          _currentPosition == null
+              ? Center(child: CircularProgressIndicator())
+              : FlutterMap(
+                mapController: mapController,
+                options: MapOptions(
+                  initialCenter: _currentPosition!,
+                  initialZoom: 15.0,
+                ),
+                children: [
+                  TileLayer(
+                    urlTemplate: tileLayer,
+                    subdomains: ['a', 'b', 'c'],
+                  ),
+                  MarkerLayer(markers: getDeviceMarkers()),
+                  PolylineLayer(polylines: getPolylines()),
+                ],
+              ),
     );
   }
 }

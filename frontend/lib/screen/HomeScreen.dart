@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/provider/AuthProvider.dart';
 import 'package:frontend/screen/LoginScreen.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,8 +13,14 @@ class HomeScreen extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
+                Navigator.pushNamed(context, '/map');
+              },
+              child: Text('Map'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 // Navigacija prema ruti '/second'
-                context.go('/profile');
+                Navigator.pushNamed(context, '/profile');
               },
               child: Text('Profil'),
             ),

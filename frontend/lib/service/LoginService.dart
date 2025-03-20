@@ -1,13 +1,31 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class LoginService {
-  static const String baseUrl = "http://localhost:8000/api/auth";
+  static const String baseUrl = "http://192.168.1.5:8000/api/auth";
 
   Future<void> storeToken(String token) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
+  }
+
+  // create class for claims
+  Map<String, dynamic> getClaimsFromToken(String token) {
+    return JwtDecoder.decode(token);
+  }
+
+  String getUsernameFromToken(String token) {
+    return JwtDecoder.decode(token)["username"];
+  }
+
+  String getUserIdFromToken(String token) {
+    return JwtDecoder.decode(token)["userId"];
+  }
+
+  List<String> getUserRolesFromToken(String token) {
+    return JwtDecoder.decode(token)["roles"];
   }
 
   Future<bool> isLoggedIn() async {

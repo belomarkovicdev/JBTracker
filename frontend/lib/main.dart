@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/AppTheme.dart';
 import 'package:frontend/provider/AuthProvider.dart';
+import 'package:frontend/screen/HomeScreen.dart';
+import 'package:frontend/screen/LocationMapScreen.dart';
+import 'package:frontend/screen/LoginScreen.dart';
+import 'package:frontend/screen/ProfileScreen.dart';
+import 'package:frontend/screen/RegistrationScreen.dart';
 import 'package:frontend/wrapper/AuthenticationWrapper.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +27,13 @@ class _MyAppState extends State<MyApp> {
         title: "JBPetTracker",
         theme: AppTheme.theme,
         home: AuthenticationWrapper(),
+        routes: {
+          '/home': (context) => HomeScreen(),
+          '/login': (context) => LoginScreen(),
+          '/register': (context) => RegisterScreen(),
+          '/profile': (context) => ProfileScreen(),
+          '/map': (context) => MapScreen(),
+        },
       ),
     );
   }

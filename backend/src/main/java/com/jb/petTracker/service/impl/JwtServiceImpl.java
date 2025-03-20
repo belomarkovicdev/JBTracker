@@ -4,25 +4,41 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
+import com.jb.petTracker.model.User;
 import com.jb.petTracker.service.JwtService;
+import com.jb.petTracker.service.UserService;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-
+@Service
 public class JwtServiceImpl implements JwtService {
 	public static final String SECRET = "5367566859703373367639792F423F452848284D6251655468576D5A71347437";
+	private final UserService userService;
 	
+	
+	public JwtServiceImpl(UserService userService) {
+		super();
+		this.userService = userService;
+	}
+
 	@Override
 	public String generateToken(String username) {
 		Map<String, Object> claims = new HashMap<>();
+		Optional<User> u = userService.findByUsername(username);
+		claims.put("username", u.get().getUsername());
+		claims.put("userId", u.get().getId());
+		claims.put("roles", u.get().getRoles());
+		claims.put("email", u.get().getEmail());
 		return createToken(claims, username);
 	}
 
