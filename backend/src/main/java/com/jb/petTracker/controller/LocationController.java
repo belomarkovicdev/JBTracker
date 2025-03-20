@@ -1,7 +1,5 @@
 package com.jb.petTracker.controller;
 
-import java.util.List;
-
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jb.petTracker.dto.TraccarLocationDTO;
+import com.jb.petTracker.model.DeviceLocations;
 import com.jb.petTracker.model.Location;
 import com.jb.petTracker.model.LocationDetails;
 import com.jb.petTracker.service.LocationService;
@@ -33,7 +32,7 @@ public class LocationController {
 	public void receiveLocation(@ModelAttribute TraccarLocationDTO traccarLocationDTO) {
 		LocationDetails location = new LocationDetails(traccarLocationDTO);
 		messagingTemplate.convertAndSend("/topic/location", location);
-		locationService.saveLocation(location);
+		locationService.saveLocation(traccarLocationDTO);
 	}
 
 	@GetMapping("/latest/{id}")
@@ -41,9 +40,8 @@ public class LocationController {
 		return locationService.getLatestLocation(id);
 	}
 
-	@GetMapping("/history/{id}")
-//    ne radi zato sto se ne duplira @Id
-	public List<LocationDetails> getLocationHistory(@PathVariable Long id) {
+	@GetMapping("/device/{id}")
+	public DeviceLocations getLocationHistory(@PathVariable String id) {
 		return locationService.getLocationHistory(id);
 	}
 }
