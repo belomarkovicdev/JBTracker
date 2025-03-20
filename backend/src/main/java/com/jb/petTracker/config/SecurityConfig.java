@@ -39,7 +39,8 @@ public class SecurityConfig {
                         		"/ws/**",
                         		"/mqtt/**",
                         		"/api/auth/addNewUser",
-                        		"/api/auth/generateToken"
+                        		"/api/auth/generateToken",
+                        		"/api/location"
                         		).permitAll()
                         .requestMatchers("/api/auth/user/**").hasAuthority("ROLE_USER")
                         .requestMatchers("/api/auth/admin/**").hasAuthority("ROLE_ADMIN")
