@@ -49,9 +49,9 @@ public class UserController {
 	@PostMapping("/generateToken")
 	public ResponseEntity<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
 		if (authService.isAuthenticated(authRequest)) {
-			return new ResponseEntity<>(jwtService.generateToken(authRequest.getUsername()),HttpStatus.OK);
+			return new ResponseEntity<>(jwtService.generateToken(authRequest.getUsername()), HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("Invalid credentials",HttpStatus.UNAUTHORIZED);
+			return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
 		}
 	}
 }

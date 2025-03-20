@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.jb.petTracker.filter.JwtAuthFilter;
 import com.jb.petTracker.service.JwtService;
-import com.jb.petTracker.service.UserService;
+import com.jb.petTracker.service.impl.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserService();
+        return new UserServiceImpl();
     }
 
     @Bean
@@ -70,7 +70,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public JwtAuthFilter jwtAuthFilter(UserService userDetailsService, JwtService jwtService) {
+    public JwtAuthFilter jwtAuthFilter(UserServiceImpl userDetailsService, JwtService jwtService) {
         return new JwtAuthFilter(userDetailsService, jwtService);
     }
 }
