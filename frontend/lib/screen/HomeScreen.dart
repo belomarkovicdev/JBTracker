@@ -4,38 +4,40 @@ import 'package:frontend/screen/LoginScreen.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
+  final Map<String, String> buttons = {"Mapa": "/map", "Profil": "/profile"};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Početna Stranica')),
+      appBar: AppBar(title: Text('JBPetTracker')),
       body: Center(
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/map');
-              },
-              child: Text('Map'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Navigacija prema ruti '/second'
-                Navigator.pushNamed(context, '/profile');
-              },
-              child: Text('Profil'),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await Provider.of<AuthProvider>(
-                  context,
-                  listen: false,
-                ).logout();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => LoginScreen()),
-                );
-              },
-              child: Text('Izloguj se'),
+            ...buttons.entries.map((e) {
+              return SizedBox(
+                width: 300,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, e.value);
+                  },
+                  child: Text(e.key),
+                ),
+              );
+            }),
+            SizedBox(
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () async {
+                  await Provider.of<AuthProvider>(
+                    context,
+                    listen: false,
+                  ).logout();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (_) => LoginScreen()),
+                  );
+                },
+                child: Text('Izloguj se'),
+              ),
             ),
           ],
         ),

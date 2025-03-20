@@ -29,7 +29,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Map<String, dynamic> claims = LoginService().getClaimsFromToken(token!);
       username = claims["username"];
       email = claims["email"];
-      roles = claims["roles"];
     });
   }
 
@@ -49,9 +48,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Username: $username", style: TextStyle(fontSize: 18)),
+            Text("Korisnicko ime: $username", style: TextStyle(fontSize: 18)),
             Text("Email: $email", style: TextStyle(fontSize: 18)),
-            Text("Roles: $roles", style: TextStyle(fontSize: 18)),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
@@ -70,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   updateProfile(result['name'], result['email']);
                 }
               },
-              child: Text("Edit Profile"),
+              child: Text("Izmeni podatke"),
             ),
           ],
         ),

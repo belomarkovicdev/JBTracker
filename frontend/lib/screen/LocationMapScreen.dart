@@ -142,7 +142,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Location Map")),
+      appBar: AppBar(title: Text("Pracenje lokacije")),
       body:
           _currentPosition == null
               ? Center(child: CircularProgressIndicator())
