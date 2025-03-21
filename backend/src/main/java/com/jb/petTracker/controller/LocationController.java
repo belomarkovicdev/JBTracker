@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jb.petTracker.dto.TraccarLocationDTO;
 import com.jb.petTracker.model.DeviceTrackingSession;
-import com.jb.petTracker.model.Location;
 import com.jb.petTracker.model.LocationDetails;
 import com.jb.petTracker.service.LocationService;
 
@@ -40,7 +39,7 @@ public class LocationController {
 	}
 
 	@GetMapping("/device/{id}")
-	public ResponseEntity<List<DeviceTrackingSession>> getLocationHistory(@PathVariable String id) {
+	public ResponseEntity<DeviceTrackingSession> getLocationHistory(@PathVariable String id) {
 		return new ResponseEntity<>(locationService.getLocationHistory(id), HttpStatus.OK);
 	}
 }

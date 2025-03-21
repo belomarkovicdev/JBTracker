@@ -20,8 +20,8 @@ public class LocationServiceImpl implements LocationService {
 		this.locationMongoRepository = locationMongoRepository;
 	}
 
-	public List<DeviceTrackingSession> getLocationHistory(String deviceId) {
-		return locationMongoRepository.findAllByDeviceId(deviceId);
+	public DeviceTrackingSession getLocationHistory(String deviceId) {
+		return locationMongoRepository.findByDeviceId(deviceId);
 	}
 
 	@Override
