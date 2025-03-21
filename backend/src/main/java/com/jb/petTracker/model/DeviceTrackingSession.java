@@ -17,7 +17,7 @@ import lombok.Setter;
 
 @Document(collection = "device_locations")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class DeviceLocations {
+public class DeviceTrackingSession {
 
 	@Id
 	private String id;
@@ -26,7 +26,7 @@ public class DeviceLocations {
 	private LocalDate date;
 	private List<Location> locations = new ArrayList<>();
 	
-	public DeviceLocations(TraccarLocationDTO traccarLocationDTO){
+	public DeviceTrackingSession(TraccarLocationDTO traccarLocationDTO){
 		this.deviceId = traccarLocationDTO.getId();
 		this.locations.add(new Location(traccarLocationDTO));
 		this.date = LocalDate.now();

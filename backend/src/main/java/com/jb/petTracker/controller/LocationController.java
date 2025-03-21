@@ -1,5 +1,7 @@
 package com.jb.petTracker.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jb.petTracker.dto.TraccarLocationDTO;
-import com.jb.petTracker.model.DeviceLocations;
+import com.jb.petTracker.model.DeviceTrackingSession;
 import com.jb.petTracker.model.Location;
 import com.jb.petTracker.model.LocationDetails;
 import com.jb.petTracker.service.LocationService;
@@ -37,13 +39,8 @@ public class LocationController {
 		locationService.saveLocation(traccarLocationDTO);
 	}
 
-	@GetMapping("/latest/{id}")
-	public ResponseEntity<Location> getLatestLocation(@PathVariable String id) {
-		return new ResponseEntity<>(locationService.getLatestLocation(id), HttpStatus.OK);
-	}
-
 	@GetMapping("/device/{id}")
-	public DeviceLocations getLocationHistory(@PathVariable String id) {
-		return locationService.getLocationHistory(id);
+	public ResponseEntity<List<DeviceTrackingSession>> getLocationHistory(@PathVariable String id) {
+		return new ResponseEntity<>(locationService.getLocationHistory(id), HttpStatus.OK);
 	}
 }

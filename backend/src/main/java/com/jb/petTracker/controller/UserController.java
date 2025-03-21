@@ -29,7 +29,7 @@ public class UserController {
 		this.authService = authService;
 	}
 
-	@PostMapping("/addNewUser")
+	@PostMapping("/register")
 	public ResponseEntity<String> addNewUser(@RequestBody User userInfo) {
 		userInfoService.addUser(userInfo);
 		return new ResponseEntity<>("User added successfully",HttpStatus.OK);
