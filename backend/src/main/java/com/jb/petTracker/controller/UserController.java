@@ -30,8 +30,9 @@ public class UserController {
 	}
 
 	@PostMapping("/addNewUser")
-	public String addNewUser(@RequestBody User userInfo) {
-		return userInfoService.addUser(userInfo);
+	public ResponseEntity<String> addNewUser(@RequestBody User userInfo) {
+		userInfoService.addUser(userInfo);
+		return new ResponseEntity<>("User added successfully",HttpStatus.OK);
 	}
 
 	@GetMapping("/user/userProfile")

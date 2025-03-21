@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Document(collection = "user_locations")
+@Document(collection = "device_locations")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class DeviceLocations {
 
