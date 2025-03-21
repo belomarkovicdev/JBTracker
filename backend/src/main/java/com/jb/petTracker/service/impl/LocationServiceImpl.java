@@ -1,44 +1,37 @@
 package com.jb.petTracker.service.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.jb.petTracker.dto.TraccarLocationDTO;
-import com.jb.petTracker.model.DeviceLocations;
-import com.jb.petTracker.model.LatestLocation;
+import com.jb.petTracker.model.DeviceTrackingSession;
 import com.jb.petTracker.model.Location;
-import com.jb.petTracker.repository.LocationMongoRepository;
-import com.jb.petTracker.repository.LocationRedisRepository;
+import com.jb.petTracker.repository.DeviceTrackingSessionRepository;
 import com.jb.petTracker.service.LocationService;
 
 @Service
 public class LocationServiceImpl implements LocationService {
 
-	private final LocationMongoRepository locationMongoRepository;
-	private final LocationRedisRepository<LatestLocation> locationRedisRepository;
+	private final DeviceTrackingSessionRepository locationMongoRepository;
 
-	public LocationServiceImpl(LocationMongoRepository locationMongoRepository,
-			LocationRedisRepository<LatestLocation> locationRedisRepository) {
+	public LocationServiceImpl(DeviceTrackingSessionRepository locationMongoRepository) {
 		super();
 		this.locationMongoRepository = locationMongoRepository;
-		this.locationRedisRepository = locationRedisRepository;
 	}
 
-	public LatestLocation getLatestLocation(String id) {
-		return locationRedisRepository.findById(id);
-	}
-
-	public DeviceLocations getLocationHistory(String deviceId) {
-		return locationMongoRepository.findByDeviceId(deviceId);
+	public List<DeviceTrackingSession> getLocationHistory(String deviceId) {
+		return locationMongoRepository.findAllByDeviceId(deviceId);
 	}
 
 	@Override
 	public void saveLocation(TraccarLocationDTO traccarLocationDTO) {
-		DeviceLocations deviceLocations = locationMongoRepository.findByDeviceId(traccarLocationDTO.getId());
+		DeviceTrackingSession deviceLocations = locationMongoRepository.findByDeviceId(traccarLocationDTO.getId());
 		if(deviceLocations != null) {
 			deviceLocations.getLocations().add(new Location(traccarLocationDTO));
 			locationMongoRepository.save(deviceLocations);
 		}else {
-			locationMongoRepository.save(new DeviceLocations(traccarLocationDTO));
+			locationMongoRepository.save(new DeviceTrackingSession(traccarLocationDTO));
 		}
 	}
 

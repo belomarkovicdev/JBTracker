@@ -25,8 +25,8 @@ public class DeviceController {
 		this.userService = userService;
 	}
 	@PostMapping("/{username}/add")
-	public void addNewDevice(@RequestBody SaveDeviceDTO device, @PathVariable String username) {
-		userService.addDevice(username, new Device(device));
+	public void addNewDevice(@RequestBody SaveDeviceDTO deviceDTO, @PathVariable String username) {
+		userService.addDevice(username, new Device(deviceDTO));
 	}
 	
 	@GetMapping("/{username}")

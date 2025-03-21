@@ -38,7 +38,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/user/**").hasAuthority("ROLE_USER")
                         .requestMatchers("/api/auth/admin/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers(
-                        		"/**"
+                        		"/**",
+                        		"/api/auth/**"
                         		).permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
