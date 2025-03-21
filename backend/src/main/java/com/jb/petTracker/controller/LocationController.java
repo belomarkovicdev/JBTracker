@@ -1,5 +1,7 @@
 package com.jb.petTracker.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,8 +38,8 @@ public class LocationController {
 	}
 
 	@GetMapping("/latest/{id}")
-	public Location getLatestLocation(@PathVariable String id) {
-		return locationService.getLatestLocation(id);
+	public ResponseEntity<Location> getLatestLocation(@PathVariable String id) {
+		return new ResponseEntity<>(locationService.getLatestLocation(id), HttpStatus.OK);
 	}
 
 	@GetMapping("/device/{id}")

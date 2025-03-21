@@ -1,5 +1,6 @@
 package com.jb.petTracker.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -19,5 +20,5 @@ public class User {
 	private String email;
 	private String password;
 	private String roles;
-	private List<Device> devices;
+	private List<Device> devices = new ArrayList<>();
 }
