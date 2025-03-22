@@ -1,7 +1,5 @@
 # JBPetTracker
 Aplikacija za pracenje pasa koriscenjem JBPetTracker uredjaja.
-
-
 **Korisnik** 
 
     - id  
@@ -42,4 +40,10 @@ Aplikacija za pracenje pasa koriscenjem JBPetTracker uredjaja.
     - id  
     - devices
     - administrator
-    
+
+
+    Korisnik ima listu uredjaja.  
+    Uredjaj ima listu lokacija.  
+    Lokacija je read-only, i ne moze se brisati.  
+        Opciono: dodati TTL na polje date
+        
