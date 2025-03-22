@@ -1,5 +1,7 @@
 # JBPetTracker
 Aplikacija za pracenje pasa koriscenjem JBPetTracker uredjaja.
+
+
 **Korisnik** 
 
     - id  
