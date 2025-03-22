@@ -1,4 +1,5 @@
-# Funkcionalni zahtevi
+# JBPetTracker
+Aplikacija za pracenje pasa koriscenjem JBPetTracker uredjaja.
 **Korisnik** 
 
     - id  
@@ -22,7 +23,8 @@
             kreira grupu  
                 - korisnik koji kreira grupu, automatski postaje njen administrator  
                 - grupa ce prikazivati listu uredjaja sa njihovim lokacijama  
-                - uredjaj moze da se doda i izbaci iz grupe samo od strane administratora                  
+                - uredjaj moze da se doda i izbaci iz grupe samo od strane administratora   
+                - dodavanjem novog korisnika, dodaju se i svi njegovi uredjaji  
                 - svaki korisnik u grupi ce deliti svoju lokaciju, i lokaciju svih svojih uredjaja  
                 - da napusti grupu
 
