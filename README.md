@@ -52,11 +52,24 @@ Aplikacija za pracenje pasa koriscenjem JBPetTracker uredjaja.
             password  
             devices {
                 Device {
-                    coordinates {
-                        latitude  
-                        longitude  
+                    Location {
+                        coordinates
+                        timestamp
                     }
                 }
             }
         }
-        
+
+        Group {
+            id
+            users
+            administrator
+        }
+
+**Sesija**
+
+    Svaka sesija bi mogla da bude grupa zbog lakse logike.
+    Prilikom prikazivanja mape, moguce je kreirati sesiju.
+    U sesiju je moguce dodati celu grupu, ili pojedinca.
+    Prilikom dodavanja, drugi klijent mora da prihvati poziv.
+    
