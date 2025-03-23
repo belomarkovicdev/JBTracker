@@ -1,7 +1,5 @@
 package com.jb.petTracker.service.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.jb.petTracker.dto.TraccarLocationDTO;

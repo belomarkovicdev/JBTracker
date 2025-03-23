@@ -3,6 +3,7 @@ package com.jb.petTracker.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class User {
 	@Id
-	private String id;
+	private ObjectId id;
 	private String username;
 	private String email;
 	private String password;

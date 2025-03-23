@@ -8,4 +8,5 @@ import lombok.Setter;
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 public class SaveDeviceDTO {
 	private String name;
+	private String deviceId;
 }

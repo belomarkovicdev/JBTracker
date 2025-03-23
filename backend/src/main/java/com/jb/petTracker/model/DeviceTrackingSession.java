@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,7 +21,7 @@ import lombok.Setter;
 public class DeviceTrackingSession {
 
 	@Id
-	private String id;
+	private ObjectId id;
 	@Indexed
 	private String deviceId;
 	private LocalDate date;
