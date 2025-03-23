@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:frontend/global.dart';
 import 'package:frontend/model/DeviceLocation.model.dart';
 import 'package:frontend/model/Location.model.dart';
 import 'package:frontend/model/LocationData.model.dart';
@@ -74,7 +75,7 @@ class _MapScreenState extends State<MapScreen> {
   void connectToWebSocket() {
     stompClient = StompClient(
       config: StompConfig(
-        url: 'ws://192.168.1.5:8000/ws/websocket', // WebSocket URL
+        url: 'ws://$serverUrl/ws/websocket', // WebSocket URL
         onConnect: _onConnect,
         onWebSocketError: (dynamic error) => print("WebSocket Error: $error"),
       ),
@@ -146,19 +147,50 @@ class _MapScreenState extends State<MapScreen> {
       body:
           _currentPosition == null
               ? Center(child: CircularProgressIndicator())
-              : FlutterMap(
-                mapController: mapController,
-                options: MapOptions(
-                  initialCenter: _currentPosition!,
-                  initialZoom: 15.0,
-                ),
+              : Stack(
                 children: [
-                  TileLayer(
-                    urlTemplate: tileLayer,
-                    subdomains: ['a', 'b', 'c'],
+                  FlutterMap(
+                    mapController: mapController,
+                    options: MapOptions(
+                      initialCenter: _currentPosition!,
+                      initialZoom: 15.0,
+                    ),
+                    children: [
+                      TileLayer(
+                        urlTemplate: tileLayer,
+                        subdomains: ['a', 'b', 'c'],
+                      ),
+                      MarkerLayer(markers: getDeviceMarkers()),
+                      PolylineLayer(polylines: getPolylines()),
+                    ],
                   ),
-                  MarkerLayer(markers: getDeviceMarkers()),
-                  PolylineLayer(polylines: getPolylines()),
+                  Positioned(
+                    bottom: 20,
+                    right: 20,
+                    child: Row(
+                      spacing: 10,
+                      children: [
+                        FloatingActionButton(
+                          onPressed: () {
+                            print("Kliknuto dugme");
+                          },
+                          child: Icon(Icons.my_location),
+                        ),
+                        FloatingActionButton(
+                          onPressed: () {
+                            print("Kliknuto dugme");
+                          },
+                          child: Icon(Icons.pets),
+                        ),
+                        FloatingActionButton(
+                          onPressed: () {
+                            print("Kliknuto dugme");
+                          },
+                          child: Icon(Icons.add),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
     );

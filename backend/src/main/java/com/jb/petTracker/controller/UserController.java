@@ -32,7 +32,7 @@ public class UserController {
 	@PostMapping("/register")
 	public ResponseEntity<String> addNewUser(@RequestBody User userInfo) {
 		userInfoService.addUser(userInfo);
-		return new ResponseEntity<>("User added successfully",HttpStatus.OK);
+		return new ResponseEntity<>("User added successfully", HttpStatus.OK);
 	}
 
 	@GetMapping("/user/userProfile")
@@ -47,7 +47,7 @@ public class UserController {
 		return "Welcome to Admin Profile";
 	}
 
-	@PostMapping("/generateToken")
+	@PostMapping("/login")
 	public ResponseEntity<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
 		if (authService.isAuthenticated(authRequest)) {
 			return new ResponseEntity<>(jwtService.generateToken(authRequest.getUsername()), HttpStatus.OK);

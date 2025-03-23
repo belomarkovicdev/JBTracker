@@ -35,12 +35,13 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/user/**").hasAuthority("ROLE_USER")
-                        .requestMatchers("/api/auth/admin/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers(
                         		"/**",
-                        		"/api/**"
+                        		"/ws/**",
+                        		"/mqtt/**"
                         		).permitAll()
+                        .requestMatchers("/api/auth/user/**").hasAuthority("ROLE_USER")
+                        .requestMatchers("/api/auth/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

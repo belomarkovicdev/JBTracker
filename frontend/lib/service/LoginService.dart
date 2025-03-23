@@ -2,9 +2,10 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
+import 'package:frontend/global.dart';
 
 class LoginService {
-  static const String baseUrl = "http://192.168.1.5:8000/api/auth";
+  static const String baseUrl = "http://$serverUrl/api/auth";
 
   Future<void> storeToken(String token) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -38,7 +39,7 @@ class LoginService {
     String username,
     String password,
   ) async {
-    final url = Uri.parse('$baseUrl/generateToken');
+    final url = Uri.parse('$baseUrl/login');
 
     final body = {'username': username, 'password': password};
 

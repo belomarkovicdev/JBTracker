@@ -20,7 +20,7 @@ public class CorsConfig {
         config.setAllowedOrigins(List.of("http://localhost:8080")); // Explicitly allow origins
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        
+
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
