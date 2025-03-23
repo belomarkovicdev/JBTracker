@@ -17,6 +17,7 @@ import com.jb.petTracker.service.JwtService;
 import com.jb.petTracker.service.UserService;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -64,12 +65,20 @@ public class JwtServiceImpl implements JwtService {
 	
 	@Override
 	public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-		final Claims claims = extractAllClaims(token);
-		return claimsResolver.apply(claims);
+		try {
+			final Claims claims = extractAllClaims(token);
+			return claimsResolver.apply(claims);			
+		}catch(NullPointerException e) {
+			return null;
+		}
 	}
 
 	private Claims extractAllClaims(String token) {
-		return Jwts.parser().verifyWith((SecretKey) getSignKey()).build().parseSignedClaims(token).getPayload();
+		try {
+			return Jwts.parser().verifyWith((SecretKey) getSignKey()).build().parseSignedClaims(token).getPayload();			
+		}catch (ExpiredJwtException e){
+			return null;
+		}
 	}
 
 	private Boolean isTokenExpired(String token) {
