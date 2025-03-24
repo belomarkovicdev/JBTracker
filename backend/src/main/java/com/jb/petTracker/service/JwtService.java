@@ -5,11 +5,13 @@ import java.util.function.Function;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.jb.petTracker.model.User;
+
 import io.jsonwebtoken.Claims;
 
 public interface JwtService {
 	
-	String generateToken(String username);
+	String generateToken(User user);
 	Date extractExpiration(String token);
 	String extractUsername(String token);
 	<T> T extractClaim(String token, Function<Claims, T> claimsResolver);

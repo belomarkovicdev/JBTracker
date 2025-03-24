@@ -2,57 +2,37 @@ package com.jb.petTracker.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jb.petTracker.model.AuthRequest;
-import com.jb.petTracker.model.User;
-import com.jb.petTracker.service.AuthService;
-import com.jb.petTracker.service.JwtService;
+import com.jb.petTracker.dto.GroupDTO;
+import com.jb.petTracker.service.GroupService;
 import com.jb.petTracker.service.UserService;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/user")
 public class UserController {
-	private UserService userInfoService;
-	private JwtService jwtService;
-	private AuthService authService;
 
-	public UserController(UserService service, JwtService jwtService, AuthService authService) {
+	private UserService userService;
+	private GroupService groupService;
+
+
+
+	public UserController(UserService userService, GroupService groupService) {
 		super();
-		this.userInfoService = service;
-		this.jwtService = jwtService;
-		this.authService = authService;
+		this.userService = userService;
+		this.groupService = groupService;
 	}
 
-	@PostMapping("/register")
-	public ResponseEntity<String> addNewUser(@RequestBody User userInfo) {
-		userInfoService.addUser(userInfo);
-		return new ResponseEntity<>("User added successfully", HttpStatus.OK);
-	}
 
-	@GetMapping("/user/userProfile")
-	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public String userProfile() {
-		return "Welcome to User Profile";
-	}
 
-	@GetMapping("/admin/adminProfile")
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
-	public String adminProfile() {
-		return "Welcome to Admin Profile";
-	}
-
-	@PostMapping("/login")
-	public ResponseEntity<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-		if (authService.isAuthenticated(authRequest)) {
-			return new ResponseEntity<>(jwtService.generateToken(authRequest.getUsername()), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
-		}
+	@PutMapping("/{userId}/groups/add")
+	public ResponseEntity<GroupDTO> addToGroup(@PathVariable String userId, @RequestParam String groupId) {
+		userService.addToGroup(userId, groupId);
+		GroupDTO group = new GroupDTO(groupService.findById(groupId));
+		return new ResponseEntity<>(group, HttpStatus.OK);
 	}
 }

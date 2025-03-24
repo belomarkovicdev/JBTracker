@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:frontend/dto/LoggedInDTO.model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -35,10 +36,7 @@ class LoginService {
     return token != null;
   }
 
-  static Future<Map<String, dynamic>> login(
-    String username,
-    String password,
-  ) async {
+  static Future<LoggedInDTO> login(String username, String password) async {
     final url = Uri.parse('$baseUrl/login');
 
     final body = {'username': username, 'password': password};
@@ -50,8 +48,7 @@ class LoginService {
     );
 
     if (response.statusCode == 200) {
-      String token = response.body; // Token is the plain text in response body
-      return {'token': token}; // Return the token inside a map
+      return LoggedInDTO.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to login: ${response.statusCode}');
     }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:frontend/AppTheme.dart';
 import 'package:frontend/provider/AuthProvider.dart';
 import 'package:frontend/screen/HomeScreen.dart';
-import 'package:frontend/screen/LocationMapScreen.dart';
 import 'package:frontend/screen/LoginScreen.dart';
 import 'package:frontend/screen/ProfileScreen.dart';
 import 'package:frontend/screen/RegistrationScreen.dart';
@@ -22,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AuthProvider(),
+      create: (context) => AuthProvider(),
       child: MaterialApp(
         title: "JBPetTracker",
         theme: AppTheme.theme,
@@ -32,7 +31,7 @@ class _MyAppState extends State<MyApp> {
           '/login': (context) => LoginScreen(),
           '/register': (context) => RegisterScreen(),
           '/profile': (context) => ProfileScreen(),
-          '/map': (context) => MapScreen(),
+          // '/map': (context) => MapScreen(),
         },
       ),
     );
