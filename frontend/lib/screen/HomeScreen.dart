@@ -7,8 +7,9 @@ class HomeScreen extends StatelessWidget {
   final Map<String, String> buttons = {"Mapa": "/map", "Profil": "/profile"};
   @override
   Widget build(BuildContext context) {
+    final loggedInUser = Provider.of<AuthProvider>(context).loggedInUser;
     return Scaffold(
-      appBar: AppBar(title: Text('JBPetTracker')),
+      appBar: AppBar(title: Text('Dobrodosao ${loggedInUser!.username}')),
       body: Center(
         child: Column(
           children: [
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
               );
             }),
             SizedBox(
-              width: 200,
+              width: 300,
               child: ElevatedButton(
                 onPressed: () async {
                   await Provider.of<AuthProvider>(

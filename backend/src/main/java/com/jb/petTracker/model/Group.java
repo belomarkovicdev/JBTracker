@@ -18,5 +18,5 @@ public class Group {
 	private ObjectId id;
 	private String name;
 	@DBRef
-	private List<DeviceTrackingSession> deviceTrackingSessions;
+	private List<DeviceLocations> deviceTrackingSessions;
 }

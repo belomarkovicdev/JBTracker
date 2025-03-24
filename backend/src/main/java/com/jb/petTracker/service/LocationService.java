@@ -1,8 +1,8 @@
 package com.jb.petTracker.service;
 
 import com.jb.petTracker.dto.TraccarLocationDTO;
-import com.jb.petTracker.model.DeviceTrackingSession;
+import com.jb.petTracker.model.DeviceLocations;
 public interface LocationService {
-	DeviceTrackingSession getLocationHistory(String deviceId);
+	DeviceLocations getLocationHistory(String deviceId);
 	void saveLocation(TraccarLocationDTO traccarLocationDTO);
 }

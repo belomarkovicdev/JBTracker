@@ -1,3 +1,4 @@
+import 'package:frontend/model/DeviceLocations.model.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -30,6 +31,7 @@ class LocationService {
     return LatLng(position.latitude, position.longitude);
   }
 
+  saveToRedis(String groupId, DeviceLocations newLocation) {}
   String generateLocationUrl(LatLng position) {
     return 'https://maps.google.com/?q=${position.latitude},${position.longitude}';
   }

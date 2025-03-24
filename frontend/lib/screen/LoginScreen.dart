@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/dto/LoggedInDTO.model.dart';
 import 'package:frontend/provider/AuthProvider.dart';
 import 'package:frontend/screen/HomeScreen.dart';
 import 'package:frontend/service/LoginService.dart';
@@ -33,25 +34,19 @@ class _LoginScreenState extends State<LoginScreen> {
     });
 
     try {
-      final response = await LoginService.login(username, password);
+      final LoggedInDTO response = await LoginService.login(username, password);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Prijava uspesna')));
+      await Provider.of<AuthProvider>(
+        context,
+        listen: false,
+      ).login(response.token, response.user);
 
-      if (response.containsKey('token')) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Prijava uspesna')));
-        await Provider.of<AuthProvider>(
-          context,
-          listen: false,
-        ).login(response['token']);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (_) => HomeScreen()),
-        );
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Ne postoji korisnik sa unesenim podacima')),
-        );
-      }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => HomeScreen()),
+      );
     } catch (error) {
       ScaffoldMessenger.of(
         context,

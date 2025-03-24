@@ -21,4 +21,5 @@ public class User {
 	private String password;
 	private String roles = "ROLE_USER";
 	private List<Device> devices = new ArrayList<>();
+	private String groupId;
 }
