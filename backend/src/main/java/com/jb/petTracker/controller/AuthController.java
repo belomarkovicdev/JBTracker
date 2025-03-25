@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jb.petTracker.dto.AuthRequestDTO;
 import com.jb.petTracker.dto.LoginResponseDTO;
 import com.jb.petTracker.dto.RegisteredUserDTO;
-import com.jb.petTracker.model.AuthRequest;
 import com.jb.petTracker.model.User;
 import com.jb.petTracker.service.AuthService;
 import com.jb.petTracker.service.UserService;
@@ -33,7 +33,7 @@ public class AuthController {
 	}
 
 	@PostMapping("/login")
-	public ResponseEntity<LoginResponseDTO> login(@RequestBody AuthRequest authRequest) {
+	public ResponseEntity<LoginResponseDTO> login(@RequestBody AuthRequestDTO authRequest) {
 		if (authService.isAuthenticated(authRequest)) {
 			return new ResponseEntity<>(userService.login(authRequest.getUsername()), HttpStatus.OK);
 		} else {

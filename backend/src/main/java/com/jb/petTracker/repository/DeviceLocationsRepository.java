@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import com.jb.petTracker.model.DeviceLocations;
 
 @Repository
-public interface DeviceTrackingSessionRepository extends MongoRepository<DeviceLocations, String> {
+public interface DeviceLocationsRepository extends MongoRepository<DeviceLocations, String> {
     DeviceLocations findByDeviceId(String id);
 }

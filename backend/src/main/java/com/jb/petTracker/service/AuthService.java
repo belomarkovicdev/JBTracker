@@ -1,7 +1,7 @@
 package com.jb.petTracker.service;
 
-import com.jb.petTracker.model.AuthRequest;
+import com.jb.petTracker.dto.AuthRequestDTO;
 
 public interface AuthService {
-	boolean isAuthenticated(AuthRequest authRequest);
+	boolean isAuthenticated(AuthRequestDTO authRequest);
 }

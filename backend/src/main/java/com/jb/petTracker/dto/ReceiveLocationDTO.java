@@ -1,6 +1,6 @@
 package com.jb.petTracker.dto;
 
-public class TraccarLocationDTO {
+public class ReceiveLocationDTO {
 	private String id;
 	private double lat;
 	private double lon;
@@ -8,7 +8,7 @@ public class TraccarLocationDTO {
 	private double accuracy;
 	private String batt;
 
-	public TraccarLocationDTO(String id, double lat, double lon, long timestamp, double accuracy, String batt) {
+	public ReceiveLocationDTO(String id, double lat, double lon, long timestamp, double accuracy, String batt) {
 		super();
 		this.id = id;
 		this.lat = lat;
@@ -18,7 +18,7 @@ public class TraccarLocationDTO {
 		this.batt = batt;
 	}
 
-	public TraccarLocationDTO() {
+	public ReceiveLocationDTO() {
 		super();
 	}
 

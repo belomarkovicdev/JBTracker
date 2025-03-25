@@ -2,7 +2,7 @@ package com.jb.petTracker.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.jb.petTracker.dto.TraccarLocationDTO;
+import com.jb.petTracker.dto.ReceiveLocationDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,9 +16,9 @@ public class LocationDetails extends Location {
 	private double accuracy;
 	private String battery;
 
-	public LocationDetails(TraccarLocationDTO traccarLocationDTO) {
-		super(traccarLocationDTO);
-		this.accuracy = traccarLocationDTO.getAccuracy();
-		this.battery = traccarLocationDTO.getBatt();
+	public LocationDetails(ReceiveLocationDTO receiveLocationDTO) {
+		super(receiveLocationDTO);
+		this.accuracy = receiveLocationDTO.getAccuracy();
+		this.battery = receiveLocationDTO.getBatt();
 	}
 }

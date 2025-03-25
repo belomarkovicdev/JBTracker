@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
-import com.jb.petTracker.model.AuthRequest;
+import com.jb.petTracker.dto.AuthRequestDTO;
 import com.jb.petTracker.service.AuthService;
 
 @Service
@@ -21,7 +21,7 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public boolean isAuthenticated(AuthRequest authRequest) {
+	public boolean isAuthenticated(AuthRequestDTO authRequest) {
 	    try {
 	        Authentication authentication = authenticationManager.authenticate(
 	                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
