@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jb.petTracker.dto.TraccarLocationDTO;
+import com.jb.petTracker.dto.ReceiveLocationDTO;
 import com.jb.petTracker.model.DeviceLocations;
 import com.jb.petTracker.model.LocationDetails;
 import com.jb.petTracker.service.LocationService;
@@ -30,10 +30,10 @@ public class LocationController {
 
 	@PostMapping()
 	@SendTo("/topic/location")
-	public void receiveLocation(@ModelAttribute TraccarLocationDTO traccarLocationDTO) {
-		LocationDetails location = new LocationDetails(traccarLocationDTO);
+	public void receiveLocation(@ModelAttribute ReceiveLocationDTO receiveLocationDTO) {
+		LocationDetails location = new LocationDetails(receiveLocationDTO);
 		messagingTemplate.convertAndSend("/topic/location", location);
-		locationService.saveLocation(traccarLocationDTO);
+		locationService.saveLocation(receiveLocationDTO);
 	}
 
 	@GetMapping("/device/{id}")

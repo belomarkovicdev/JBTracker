@@ -8,7 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.jb.petTracker.dto.TraccarLocationDTO;
+import com.jb.petTracker.dto.ReceiveLocationDTO;
 
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class DeviceLocations {
 	private LocalDate date;
 	private List<Location> locations = new ArrayList<>();
 	
-	public DeviceLocations(TraccarLocationDTO traccarLocationDTO){
+	public DeviceLocations(ReceiveLocationDTO traccarLocationDTO){
 		this.deviceId = traccarLocationDTO.getId();
 		this.locations.add(new Location(traccarLocationDTO));
 		this.date = LocalDate.now();
