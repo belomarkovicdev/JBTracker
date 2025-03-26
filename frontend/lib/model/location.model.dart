@@ -1,27 +1,20 @@
-import 'package:frontend/model/Coordinates.model.dart';
-
 class Location {
-  Coordinates coordinates;
-  String timestamp;
-  double accuracy;
-  String battery;
+  final double lat;
+  final double lon;
+  final String timestamp;
 
-  Location({
-    required this.coordinates,
-    required this.timestamp,
-    required this.accuracy,
-    required this.battery,
-  });
+  Location({required this.lat, required this.lon, required this.timestamp});
 
   factory Location.fromJson(Map<String, dynamic> json) {
     return Location(
-      coordinates: Coordinates.fromJson(json['coordinates']),
-      timestamp: json['timestamp'].toString(),
-      accuracy: json['accuracy'],
-      battery: json['battery'],
+      lat: (json['coordinates']['x'] as num).toDouble(),
+      lon: (json['coordinates']['y'] as num).toDouble(),
+      timestamp: json['timestamp'] as String,
     );
   }
-  static List<Location> fromJsonList(List<dynamic> jsonList) {
-    return jsonList.map((json) => Location.fromJson(json)).toList();
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "X:$lat,Y:$lon";
   }
 }

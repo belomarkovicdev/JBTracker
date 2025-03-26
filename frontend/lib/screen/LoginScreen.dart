@@ -1,97 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/dto/LoggedInDTO.model.dart';
-import 'package:frontend/provider/AuthProvider.dart';
-import 'package:frontend/screen/HomeScreen.dart';
-import 'package:frontend/service/LoginService.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../providers/AuthProvider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool _isLoading = false;
-
-  Future<void> _login() async {
-    final username = _usernameController.text;
-    final password = _passwordController.text;
-
-    if (username.isEmpty || password.isEmpty) {
-      // Show error if fields are empty
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Molimo vas unesite korisnicko ime i lozinku")),
-      );
-      return;
-    }
-
-    setState(() {
-      _isLoading = true; // Show loading indicator
-    });
-
-    try {
-      final LoggedInDTO response = await LoginService.login(username, password);
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Prijava uspesna')));
-      await Provider.of<AuthProvider>(
-        context,
-        listen: false,
-      ).login(response.token, response.user);
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => HomeScreen()),
-      );
-    } catch (error) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Error $error')));
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
+class LoginScreen extends ConsumerWidget {
+  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: Text("Login")),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(labelText: "Username"),
+              controller: usernameController,
+              decoration: InputDecoration(labelText: 'Username'),
             ),
             TextField(
-              controller: _passwordController,
+              controller: passwordController,
+              decoration: InputDecoration(labelText: 'Password'),
               obscureText: true,
-              decoration: InputDecoration(labelText: "Password"),
             ),
-            SizedBox(height: 20),
-            _isLoading
-                ? CircularProgressIndicator() // Show loading indicator when the API request is in progress
-                : ElevatedButton(
-                  onPressed: _login, // Call the login function
-                  child: Text("Login"),
-                ),
-            SizedBox(height: 10),
-            TextButton(
+            SizedBox(height: 16),
+            ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(
-                  context,
-                  '/register',
-                ); // Navigate to the registration page
+                final username = usernameController.text;
+                final groupId =
+                    "67e47ee4a8b11f2acb8486b6"; // Dobijeno iz backend odgovora
+                final token =
+                    "eyJhbGciOiJIUzM4NCJ9.eyJyb2xlcyI6IlJPTEVfVVNFUiIsInVzZXJJZCI6IjY3ZTFjMjNkMTI3MmYzN2IxNzg4YzA3YiIsInVzZXJuYW1lIjoiam92YW5iZTEiLCJzdWIiOiJqb3ZhbmJlMSIsImlhdCI6MTc0MzAyODY0NCwiZXhwIjoxNzQzMDMwNDQ0fQ.eElL_hOnyWoJ0BH7DFYdLwN1zHYuXkR2gK_zWexjPHguTiG5ctJAObJ4hn3Raiku";
+                ref.read(authProvider.notifier).login(username, groupId, token);
+                context.go('/home');
               },
-              child: Text("Don't have an account? Register here."),
+              child: Text("Login"),
             ),
           ],
         ),
