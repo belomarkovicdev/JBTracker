@@ -1,39 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/AppTheme.dart';
-import 'package:frontend/provider/AuthProvider.dart';
-import 'package:frontend/screen/HomeScreen.dart';
-import 'package:frontend/screen/LoginScreen.dart';
-import 'package:frontend/screen/ProfileScreen.dart';
-import 'package:frontend/screen/RegistrationScreen.dart';
-import 'package:frontend/wrapper/AuthenticationWrapper.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'core/router.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => AuthProvider(),
-      child: MaterialApp(
-        title: "JBPetTracker",
-        theme: AppTheme.theme,
-        home: AuthenticationWrapper(),
-        routes: {
-          '/home': (context) => HomeScreen(),
-          '/login': (context) => LoginScreen(),
-          '/register': (context) => RegisterScreen(),
-          '/profile': (context) => ProfileScreen(),
-          // '/map': (context) => MapScreen(),
-        },
-      ),
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
+      routerConfig: router,
     );
   }
 }

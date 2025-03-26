@@ -1,21 +1,19 @@
 import 'package:frontend/model/Location.model.dart';
 
-class DeviceLocations {
-  final String id;
+class DeviceTrackingSession {
   final String deviceId;
-  List<Location> location;
+  final List<Location> locations;
 
-  DeviceLocations({
-    required this.id,
-    required this.deviceId,
-    required this.location,
-  });
+  DeviceTrackingSession({required this.deviceId, required this.locations});
 
-  factory DeviceLocations.fromJson(Map<String, dynamic> json) {
-    return DeviceLocations(
-      id: json['id'].toString(), // Extract deviceId from the JSON
-      deviceId: json['deviceId'],
-      location: Location.fromJsonList(json['locations']),
+  factory DeviceTrackingSession.fromJson(Map<String, dynamic> json) {
+    return DeviceTrackingSession(
+      deviceId: json['deviceId'] as String,
+      locations:
+          (json['locations'] as List<dynamic>?)
+              ?.map((loc) => Location.fromJson(loc))
+              .toList() ??
+          [],
     );
   }
 }

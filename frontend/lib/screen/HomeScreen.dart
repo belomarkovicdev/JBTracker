@@ -1,44 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/provider/AuthProvider.dart';
-import 'package:frontend/screen/LoginScreen.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import '../providers/AuthProvider.dart';
 
-class HomeScreen extends StatelessWidget {
-  final Map<String, String> buttons = {"Mapa": "/map", "Profil": "/profile"};
+class HomeScreen extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    final loggedInUser = Provider.of<AuthProvider>(context).loggedInUser;
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: Text('Dobrodosao ${loggedInUser!.username}')),
+      appBar: AppBar(title: Text("Home")),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ...buttons.entries.map((e) {
-              return SizedBox(
-                width: 300,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, e.value);
-                  },
-                  child: Text(e.key),
-                ),
-              );
-            }),
-            SizedBox(
-              width: 300,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await Provider.of<AuthProvider>(
-                    context,
-                    listen: false,
-                  ).logout();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (_) => LoginScreen()),
-                  );
-                },
-                child: Text('Izloguj se'),
-              ),
+            ElevatedButton(
+              onPressed: () {
+                final groupId =
+                    "67e47ee4a8b11f2acb8486b6"; // Ovde stavi stvarni ID iz autentifikacije
+                context.go('/map/$groupId');
+              },
+              child: Text("Go to Map"),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () {
+                ref.read(authProvider.notifier).logout();
+                context.go('/login');
+              },
+              child: Text("Logout"),
             ),
           ],
         ),
