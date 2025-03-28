@@ -2,20 +2,21 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/global.dart';
+import 'package:frontend/interceptors/auth_interceptor.dart';
 import 'package:frontend/models/group.model.dart';
-import 'package:frontend/providers/auth_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_interceptor/http_interceptor.dart';
+
+final httpClientProvider = Provider<http.Client>((ref) {
+  return InterceptedClient.build(interceptors: [AuthInterceptor(ref)]);
+});
 
 final mapDataProvider = FutureProvider<Group>((ref) async {
-  final token = ref.read(authProvider);
-  if (token == null) throw Exception("Unauthorized: No user found");
+  final client = ref.read(httpClientProvider);
 
-  final response = await http.get(
+  final response = await client.get(
     Uri.parse(getMapUrl),
-    headers: {
-      'Authorization': 'Bearer $token', // Add token back
-      'Content-Type': 'application/json',
-    },
+    headers: {'Content-Type': 'application/json'},
   );
 
   if (response.statusCode == 200) {
