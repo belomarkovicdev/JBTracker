@@ -35,7 +35,8 @@ public class AuthController {
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponseDTO> login(@RequestBody AuthRequestDTO authRequest) {
 		if (authService.isAuthenticated(authRequest)) {
-			return new ResponseEntity<>(userService.login(authRequest.getUsername()), HttpStatus.OK);
+			String token = userService.login(authRequest.getUsername());
+			return new ResponseEntity<>(new LoginResponseDTO(token), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
 		}

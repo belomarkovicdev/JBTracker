@@ -7,5 +7,4 @@ import lombok.NoArgsConstructor;
 @Data @AllArgsConstructor @NoArgsConstructor
 public class LoginResponseDTO {
 	private String token;
-	private LoggedInUserDTO user;
 }

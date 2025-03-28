@@ -39,20 +39,14 @@ public class GroupController {
 		return new ResponseEntity<>(groupService.findById(id), HttpStatus.OK);
 	}
 
-	@GetMapping("/{groupId}/overview")
-	public ResponseEntity<Group> getGroup(@RequestHeader("Authorization") String token, @PathVariable String groupId) {
+	@GetMapping("/map")
+	public ResponseEntity<Group> getGroup(@RequestHeader("Authorization") String token) {
 		String jwt = token.substring(7);
 		User user = userService.extractUserFromToken(jwt);
-		try {
-			boolean isMember = user.getGroupId().equals(groupId);
-			if (isMember) {
-				Group group = groupService.findById(groupId);
-				return new ResponseEntity<>(group, HttpStatus.OK);
-			} else {
-				return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-			}
-		} catch (NullPointerException e) {
-			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-		}
+		System.out.println("Token: " + token + "| User: " + user);
+		Group group = groupService.findById(user.getGroupId());
+		System.out.println("Group: " + group);
+		return new ResponseEntity<>(group, HttpStatus.OK);
+
 	}
 }

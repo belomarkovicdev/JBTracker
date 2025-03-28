@@ -26,10 +26,13 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public Group findById(String id) {
 		Optional<Group> group = groupRepository.findById(id);
-		if(group.isPresent()) {
+		System.out.println("Trazim groupId: " + id);
+		if (group.isPresent()) {
+			System.out.println("Grupa postoji");
 			return group.get();
-		}else {
-			return null;
+		} else {
+			System.out.println("Grupa ne postoji");
+			return new Group();
 		}
 	}
 }

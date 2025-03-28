@@ -1,12 +1,12 @@
-class Location {
+class LocationData {
   final double lat;
   final double lon;
   final String timestamp;
 
-  Location({required this.lat, required this.lon, required this.timestamp});
+  LocationData({required this.lat, required this.lon, required this.timestamp});
 
-  factory Location.fromJson(Map<String, dynamic> json) {
-    return Location(
+  factory LocationData.fromJson(Map<String, dynamic> json) {
+    return LocationData(
       lat: (json['coordinates']['x'] as num).toDouble(),
       lon: (json['coordinates']['y'] as num).toDouble(),
       timestamp: json['timestamp'] as String,
