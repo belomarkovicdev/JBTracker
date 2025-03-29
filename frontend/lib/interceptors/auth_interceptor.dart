@@ -16,7 +16,7 @@ class AuthInterceptor implements InterceptorContract {
 
     if (token != null) {
       // Dodaj Authorization header ako postoji token
-      request.headers['Authorization'] = token;
+      request.headers['Authorization'] = "Bearer $token";
     }
 
     return request; // Vraća presretnuti zahtev

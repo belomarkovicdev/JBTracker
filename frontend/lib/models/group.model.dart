@@ -11,8 +11,8 @@ class Group {
     Map<String, List<LocationData>> deviceLocations = {};
 
     // Check if deviceTrackingSessions is available
-    if (json['deviceTrackingSessions'] != null) {
-      for (var session in json['deviceTrackingSessions']) {
+    if (json['deviceLocations'] != null) {
+      for (var session in json['deviceLocations']) {
         String deviceId =
             session['deviceId'].toString(); // Convert deviceId to string
         List<LocationData> sessionLocations = [];
