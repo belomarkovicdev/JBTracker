@@ -41,7 +41,7 @@ public class GroupController {
 
 	@GetMapping("/map")
 	public ResponseEntity<Group> getGroup(@RequestHeader("Authorization") String token) {
-		User user = userService.extractUserFromToken(token);
+		User user = userService.extractUserFromToken(token.substring(7));
 		System.out.println("Token: " + token + "| User: " + user);
 		Group group = groupService.findById(user.getGroupId());
 		System.out.println("Group: " + group);
