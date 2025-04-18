@@ -9,9 +9,10 @@ import com.jb.petTracker.dto.SaveDeviceDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Document(collection = "devices")
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data @NoArgsConstructor @AllArgsConstructor @ToString
 public class Device {
 	@Id
 	private ObjectId id = new ObjectId();

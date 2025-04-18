@@ -1,5 +1,6 @@
 package com.jb.petTracker.controller;
 
+import org.bson.types.ObjectId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,11 +28,9 @@ public class UserController {
 		this.groupService = groupService;
 	}
 
-
-
 	@PutMapping("/{userId}/groups/add")
 	public ResponseEntity<GroupDTO> addToGroup(@PathVariable String userId, @RequestParam String groupId) {
-		userService.addToGroup(userId, groupId);
+		userService.addToGroup(userId, new ObjectId(groupId));
 		GroupDTO group = new GroupDTO(groupService.findById(groupId));
 		return new ResponseEntity<>(group, HttpStatus.OK);
 	}

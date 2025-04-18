@@ -24,14 +24,28 @@ public class LocationServiceImpl implements LocationService {
 	}
 
 	@Override
-	public void saveLocation(ReceiveLocationDTO traccarLocationDTO) {
-		DeviceLocations deviceLocations = locationMongoRepository.findByDeviceId(traccarLocationDTO.getId());
-		if (deviceLocations != null) {
-			deviceLocations.getLocations().add(new Location(traccarLocationDTO));
-			locationMongoRepository.save(deviceLocations);
-		} else {
-			locationMongoRepository.save(new DeviceLocations(traccarLocationDTO));
-		}
+	public DeviceLocations save(DeviceLocations deviceLocations) {
+		return locationMongoRepository.save(deviceLocations);
 	}
 
+	@Override
+	public boolean saveLocation(ReceiveLocationDTO receivedLocation) {
+		DeviceLocations deviceLocations = locationMongoRepository.findByDeviceId(receivedLocation.getId());
+		if (deviceLocations != null) {
+			try {
+				deviceLocations.getLocations().add(new Location(receivedLocation));
+				save(deviceLocations);
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		} else {
+			try {
+				save(new DeviceLocations(receivedLocation));
+				return true;
+			} catch (Exception e) {
+				return false;
+			}
+		}
+	}
 }

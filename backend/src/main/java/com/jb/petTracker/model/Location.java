@@ -14,12 +14,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 public class Location {
+	private String id; //deviceId
 	private Point coordinates;
 	private LocalTime timestamp;
 
-	public Location(ReceiveLocationDTO traccarLocation) {
+	public Location(ReceiveLocationDTO receivedLocation) {
 		super();
-		this.coordinates = new Point(traccarLocation.getLat(), traccarLocation.getLon());
-		this.timestamp = Instant.ofEpochMilli(traccarLocation.getTimestamp()).atZone(ZoneId.of("UTC")).toLocalTime();
+		this.id = receivedLocation.getId();
+		this.coordinates = new Point(receivedLocation.getLat(), receivedLocation.getLon());
+		this.timestamp = Instant.ofEpochMilli(receivedLocation.getTimestamp()).atZone(ZoneId.of("UTC")).toLocalTime();
 	}
 }

@@ -1,5 +1,7 @@
 package com.jb.petTracker.dto;
 
+import org.bson.types.ObjectId;
+
 import com.jb.petTracker.model.User;
 
 import lombok.AllArgsConstructor;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RegisteredUserDTO {
 
-	private String id;
+	private ObjectId id;
 	private String username;
 	private String email;
 

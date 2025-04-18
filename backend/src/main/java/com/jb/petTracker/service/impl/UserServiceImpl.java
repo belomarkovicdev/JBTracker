@@ -3,6 +3,7 @@ package com.jb.petTracker.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -40,19 +41,27 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		return user.map(AuthUser::new).orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 	}
 
-	public User addUser(User user) {
+	@Override
+	public boolean save(User user) {
 		user.setPassword(encoder.encode(user.getPassword()));
-		return repository.save(user);
+		try {
+			repository.save(user);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	@Override
-	public void addDevice(String username, Device device) {
-		Optional<User> user = findByUsername(username);
-		if (!user.isPresent()) {
-			throw new UsernameNotFoundException(username);
+	public boolean addDevice(String token, Device device) {
+		User user = extractUserFromToken(token.substring(7));
+		try {
+			user.getDevices().add(device);
+			repository.save(user);
+			return true;
+		} catch (Exception e) {
+			return false;
 		}
-		user.get().getDevices().add(device);
-		repository.save(user.get());
 	}
 
 	@Override
@@ -68,7 +77,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public boolean addToGroup(String username, String groupId) {
+	public boolean addToGroup(String username, ObjectId groupId) {
 		User user = findByUsername(username).get();
 		user.setGroupId(groupId);
 		repository.save(user);
@@ -78,6 +87,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Override
 	public User extractUserFromToken(String token) {
 		String username = jwtService.extractUsername(token);
-		return findByUsername(username).get();
+		User user = findByUsername(username).get();
+		System.out.println(user);
+		return user;
+	}
+
+	@Override
+	public User update(User user) {
+		return repository.save(user);
 	}
 }

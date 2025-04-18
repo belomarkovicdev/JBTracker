@@ -3,8 +3,6 @@ import 'package:frontend/global.dart';
 import 'package:http/http.dart' as http;
 
 Future<String?> login(String username, String password) async {
-  print(username);
-  print(password);
   final url = Uri.parse(loginUrl);
 
   final response = await http.post(

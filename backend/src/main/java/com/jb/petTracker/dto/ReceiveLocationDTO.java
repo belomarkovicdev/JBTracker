@@ -1,12 +1,12 @@
 package com.jb.petTracker.dto;
 
 public class ReceiveLocationDTO {
-	private String id;
+	private String id; //deviceId
 	private double lat;
 	private double lon;
 	private long timestamp;
 	private double accuracy;
-	private String batt;
+	private String speed;
 
 	public ReceiveLocationDTO(String id, double lat, double lon, long timestamp, double accuracy, String batt) {
 		super();
@@ -15,7 +15,7 @@ public class ReceiveLocationDTO {
 		this.lon = lon;
 		this.timestamp = timestamp;
 		this.accuracy = accuracy;
-		this.batt = batt;
+		this.speed = batt;
 	}
 
 	public ReceiveLocationDTO() {
@@ -63,11 +63,11 @@ public class ReceiveLocationDTO {
 	}
 
 	public String getBatt() {
-		return batt;
+		return speed;
 	}
 
 	public void setBatt(String batt) {
-		this.batt = batt;
+		this.speed = batt;
 	}
 
 }

@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'dart:convert';
-
-import 'package:frontend/global.dart';
+import 'dart:io';
 
 class StompSocket {
   static var _nextId = 0;
@@ -11,7 +9,12 @@ class StompSocket {
   final Function(Map<String, dynamic>) callback;
 
   late WebSocket _socket;
-  StompSocket(this.destination, this.callback, {this.hostname = webSocketUrl});
+
+  StompSocket(
+    this.destination,
+    this.callback, {
+    this.hostname = 'ws://192.168.1.2:8000/ws',
+  });
 
   Future<void> connect() async {
     _socket = await WebSocket.connect(hostname);

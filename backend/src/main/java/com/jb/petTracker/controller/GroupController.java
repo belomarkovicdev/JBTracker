@@ -29,8 +29,8 @@ public class GroupController {
 	}
 
 	@PostMapping()
-	public ResponseEntity<String> createGroup(@RequestBody Group group) {
-		groupService.create(group);
+	public ResponseEntity<String> createGroup(@RequestBody Group newGroup, @RequestHeader("Authorization") String token) {
+		groupService.create(newGroup, token);
 		return new ResponseEntity<>("Grupa je uspesno kreirana", HttpStatus.OK);
 	}
 
@@ -42,10 +42,7 @@ public class GroupController {
 	@GetMapping("/map")
 	public ResponseEntity<Group> getGroup(@RequestHeader("Authorization") String token) {
 		User user = userService.extractUserFromToken(token.substring(7));
-		System.out.println("Token: " + token + "| User: " + user);
-		Group group = groupService.findById(user.getGroupId());
-		System.out.println("Group: " + group);
+		Group group = groupService.findById(user.getGroupId().toString());
 		return new ResponseEntity<>(group, HttpStatus.OK);
-
 	}
 }

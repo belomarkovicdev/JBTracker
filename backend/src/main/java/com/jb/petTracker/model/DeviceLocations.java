@@ -12,13 +12,12 @@ import com.jb.petTracker.dto.ReceiveLocationDTO;
 
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Document(collection = "device_locations")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
+@Data @NoArgsConstructor @AllArgsConstructor @ToString
 public class DeviceLocations {
 
 	@Id
@@ -26,11 +25,16 @@ public class DeviceLocations {
 	@Indexed
 	private String deviceId;
 	private LocalDate date;
-	private List<Location> locations = new ArrayList<>();
+	private List<Location> locations;
 	
 	public DeviceLocations(ReceiveLocationDTO traccarLocationDTO){
 		this.deviceId = traccarLocationDTO.getId();
 		this.locations.add(new Location(traccarLocationDTO));
 		this.date = LocalDate.now();
+	}
+	public DeviceLocations(String deviceId) {
+		this.deviceId = deviceId;
+		this.date = LocalDate.now();
+		this.locations = new ArrayList<>();
 	}
 }

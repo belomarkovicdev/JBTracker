@@ -36,9 +36,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                        		"/**",
-                        		"/ws/**",
-                        		"/mqtt/**"
+                        		"/**"
                         		).permitAll()
                         .requestMatchers("/api/auth/user/**").hasAuthority("ROLE_USER")
                         .requestMatchers("/api/auth/admin/**").hasAuthority("ROLE_ADMIN")
