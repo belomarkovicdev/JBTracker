@@ -3,6 +3,8 @@ package com.jb.petTracker.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 import com.jb.petTracker.model.Device;
 import com.jb.petTracker.model.User;
 
@@ -17,11 +19,11 @@ import lombok.ToString;
 @ToString
 public class LoggedInUserDTO {
 
-	private String id = "";
+	private ObjectId id;
 	private String username = "";
 	private String email = "";
 	private List<Device> devices = new ArrayList<>();
-	private String groupId;
+	private ObjectId groupId;
 
 	public LoggedInUserDTO(User user) {
 		this.id = user.getId();

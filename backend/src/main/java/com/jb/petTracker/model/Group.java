@@ -16,7 +16,6 @@ import lombok.NoArgsConstructor;
 public class Group {
 	@Id
 	private ObjectId id;
-	private String deviceId;
 	private String name;
 	@DBRef
 	private List<DeviceLocations> deviceLocations;
