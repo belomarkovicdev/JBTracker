@@ -2,10 +2,6 @@
 #include <HardwareSerial.h>
 #include <HTTPClient.h>
 
-// === KONFIGURACIJA ===
-const char* serverIp = "109.92.173.226";
-const char* serverPort = "8000";
-const char* endpoint = "/api/location";
 
 // GPS UART podešavanje
 #define GPS_RX 4   // GPS TX ide na ovaj pin
@@ -13,8 +9,8 @@ const char* endpoint = "/api/location";
 #define GPS_BAUD 9600
 
 // SIM800L UART podešavanje
-#define MODEM_RX 16  // SIM800L TX
-#define MODEM_TX 17  // SIM800L RX
+#define MODEM_RX 17  // SIM800L TX
+#define MODEM_TX 16  // SIM800L RX
 #define MODEM_BAUD 9600
 
 // Inicijalizacija
@@ -36,8 +32,8 @@ void setup() {
 }
 
 void loop() {
-  while (SerialGPS.available()) {
-    gps.encode(SerialGPS.read());
+  while (gpsSerial.available()) {
+    gps.encode(gpsSerial.read());
 
     if (gps.location.isUpdated()) {
       float latitude = gps.location.lat();
@@ -92,12 +88,12 @@ void sendLocation(float lat, float lon) {
   Serial.println("JSON:");
   Serial.println(json);
 
-  SerialSIM.println("AT+CIPSTART=\"TCP\",\""+serverIp+"\",\""+serverPort+"\"");
+  SerialSIM.println("AT+CIPSTART=\"TCP\",\"109.92.67.92\",\"8000\"");
   delay(2000);
   SerialSIM.println("AT+CIPSEND");
   delay(2000);
-  SerialSIM.print("POST "+endpoint+" HTTP/1.1\r\n");
-  SerialSIM.print("Host: "+serverIp+"\r\n");
+  SerialSIM.print("POST /api/location HTTP/1.1\r\n");
+  SerialSIM.print("Host: 109.92.67.92\r\n");
   SerialSIM.print("Content-Type: application/json\r\n");
   SerialSIM.print("Content-Length: " + String(json.length()) + "\r\n");
   SerialSIM.print("\r\n");

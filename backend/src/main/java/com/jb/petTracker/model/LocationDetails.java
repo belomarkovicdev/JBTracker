@@ -19,6 +19,6 @@ public class LocationDetails extends Location {
 	public LocationDetails(ReceiveLocationDTO receiveLocationDTO) {
 		super(receiveLocationDTO);
 		this.accuracy = receiveLocationDTO.getAccuracy();
-		this.battery = receiveLocationDTO.getBatt();
+		this.battery = "0";
 	}
 }
