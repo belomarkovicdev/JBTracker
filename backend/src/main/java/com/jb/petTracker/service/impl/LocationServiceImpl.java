@@ -31,21 +31,13 @@ public class LocationServiceImpl implements LocationService {
 	@Override
 	public boolean saveLocation(ReceiveLocationDTO receivedLocation) {
 		DeviceLocations deviceLocations = locationMongoRepository.findByDeviceId(receivedLocation.getId());
-		if (deviceLocations != null) {
-			try {
-				deviceLocations.getLocations().add(new Location(receivedLocation));
-				save(deviceLocations);
-				return true;
-			} catch (Exception e) {
-				return false;
-			}
-		} else {
-			try {
-				save(new DeviceLocations(receivedLocation));
-				return true;
-			} catch (Exception e) {
-				return false;
-			}
+		if (deviceLocations != null && deviceLocations.getLocations() != null) {
+//				moze u getteru da se implementira ako ne postoje lokacije da vrati new ArrayList
+			deviceLocations.getLocations().add(new Location(receivedLocation));
+			save(deviceLocations);
+			return true;
 		}
+		save(new DeviceLocations(receivedLocation));
+		return true;
 	}
 }
