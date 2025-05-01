@@ -44,13 +44,16 @@ class _MapPageState extends State<MapPage> {
               ? Center(child: Text('No locations available'))
               : FlutterMap(
                 options: MapOptions(
-                  initialCenter: LatLng(45.239608, 19.822706),
+                  initialCenter: LatLng(
+                    locations.last.latitude,
+                    locations.last.longitude,
+                  ),
                   initialZoom: 10,
                 ),
                 children: [
                   TileLayer(
                     urlTemplate:
-                        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
                     subdomains: ['a', 'b', 'c'],
                   ),
                   MarkerLayer(
@@ -67,6 +70,20 @@ class _MapPageState extends State<MapPage> {
                             ),
                           );
                         }).toList(),
+                  ),
+                  PolylineLayer(
+                    polylines: [
+                      Polyline(
+                        points:
+                            locations
+                                .map(
+                                  (loc) => LatLng(loc.latitude, loc.longitude),
+                                )
+                                .toList(),
+                        strokeWidth: 4.0,
+                        color: Colors.red,
+                      ),
+                    ],
                   ),
                 ],
               ),

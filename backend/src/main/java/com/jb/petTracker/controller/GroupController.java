@@ -11,25 +11,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jb.petTracker.model.Group;
-import com.jb.petTracker.model.User;
 import com.jb.petTracker.service.GroupService;
-import com.jb.petTracker.service.UserService;
 
 @RestController
 @RequestMapping("/api/group")
 public class GroupController {
 
 	private final GroupService groupService;
-	private final UserService userService;
 
-	public GroupController(GroupService groupService, UserService userService) {
+	public GroupController(GroupService groupService) {
 		super();
 		this.groupService = groupService;
-		this.userService = userService;
 	}
 
 	@PostMapping()
-	public ResponseEntity<String> createGroup(@RequestBody Group newGroup, @RequestHeader("Authorization") String token) {
+	public ResponseEntity<String> createGroup(@RequestBody Group newGroup,
+			@RequestHeader("Authorization") String token) {
 		groupService.create(newGroup, token);
 		return new ResponseEntity<>("Grupa je uspesno kreirana", HttpStatus.OK);
 	}
@@ -37,12 +34,5 @@ public class GroupController {
 	@GetMapping("/{id}")
 	public ResponseEntity<Group> findById(@PathVariable String id) {
 		return new ResponseEntity<>(groupService.findById(id), HttpStatus.OK);
-	}
-
-	@GetMapping("/map")
-	public ResponseEntity<Group> getGroup(@RequestHeader("Authorization") String token) {
-		User user = userService.extractUserFromToken(token.substring(7));
-		Group group = groupService.findById(user.getGroupId().toString());
-		return new ResponseEntity<>(group, HttpStatus.OK);
 	}
 }
