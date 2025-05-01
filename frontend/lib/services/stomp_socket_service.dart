@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:flutter/foundation.dart';
-import 'package:web_socket_channel/io.dart';
+import 'package:frontend/global.dart';
+
+import '../services/socket/web_socket_stub.dart'
+    if (dart.library.html) '../services/socket/web_socket_html.dart'
+    if (dart.library.io) '../services/socket/web_socket_io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:web_socket_channel/html.dart';
 
 class StompSocketService {
   static var _nextId = 0;
@@ -16,14 +17,9 @@ class StompSocketService {
   StompSocketService({required this.destination, required this.onMessage});
 
   Future<void> connect() async {
-    final url = await _buildUrl();
+    final url = webSocketUrl;
     print('[STOMP] Connecting to $url'); // LOG: connection start
-
-    if (kIsWeb) {
-      _channel = HtmlWebSocketChannel.connect(url);
-    } else {
-      _channel = IOWebSocketChannel.connect(url);
-    }
+    _channel = createWebSocketChannel(url);
 
     _channel.stream.listen(
       _handleMessage,
@@ -75,43 +71,6 @@ class StompSocketService {
   void _send(String frame) {
     print('[STOMP] SEND: $frame'); // LOG: sent message
     _channel.sink.add(frame);
-  }
-
-  Future<String> _buildUrl() async {
-    if (kIsWeb) {
-      return 'ws://localhost:8000/ws';
-    } else {
-      if (Platform.isAndroid) {
-        if (await _isEmulator()) {
-          return 'ws://10.0.2.2:8000/ws';
-        } else {
-          final localIp = await _getLocalIp();
-          return 'ws://$localIp:8000/ws';
-        }
-      } else {
-        final localIp = await _getLocalIp();
-        return 'ws://$localIp:8000/ws';
-      }
-    }
-  }
-
-  Future<String> _getLocalIp() async {
-    for (var interface in await NetworkInterface.list()) {
-      for (var addr in interface.addresses) {
-        if (addr.type == InternetAddressType.IPv4 && !addr.isLoopback) {
-          return addr.address;
-        }
-      }
-    }
-    throw Exception('Cannot find local IP address');
-  }
-
-  Future<bool> _isEmulator() async {
-    try {
-      final result = await InternetAddress.lookup('10.0.2.2');
-      return result.isNotEmpty;
-    } catch (_) {}
-    return false;
   }
 
   String _buildConnectFrame() {
