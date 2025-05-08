@@ -31,7 +31,7 @@ public class UserController {
 	@PutMapping("/{userId}/groups/add")
 	public ResponseEntity<GroupDTO> addToGroup(@PathVariable String userId, @RequestParam String groupId) {
 		userService.addToGroup(userId, new ObjectId(groupId));
-		GroupDTO group = new GroupDTO(groupService.findById(groupId));
+		GroupDTO group = groupService.findById(groupId);
 		return new ResponseEntity<>(group, HttpStatus.OK);
 	}
 }

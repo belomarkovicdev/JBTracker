@@ -37,12 +37,8 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponseDTO> login(@RequestBody AuthRequestDTO authRequest) {
-		boolean isAuthenticated = authService.isAuthenticated(authRequest);
-		if (isAuthenticated) {
-			String token = userService.login(authRequest.getUsername());
-			return new ResponseEntity<>(new LoginResponseDTO(token), HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-		}
+		authService.isAuthenticated(authRequest);
+		String token = userService.generateToken(authRequest.getUsername());
+		return new ResponseEntity<>(new LoginResponseDTO(token), HttpStatus.OK);
 	}
 }

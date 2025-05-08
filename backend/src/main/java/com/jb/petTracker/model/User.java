@@ -8,13 +8,13 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Document(collection = "users")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor @ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 	@Id
 	private ObjectId id;
@@ -24,4 +24,9 @@ public class User {
 	private String roles = "ROLE_USER";
 	private List<Device> devices = new ArrayList<>();
 	private ObjectId groupId;
+
+	public User(String username, String password) {
+		this.username = username;
+		this.password = password;
+	}
 }

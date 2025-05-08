@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import com.jb.petTracker.dto.AuthRequestDTO;
@@ -22,14 +21,10 @@ public class AuthServiceImpl implements AuthService {
 
 	@Override
 	public boolean isAuthenticated(AuthRequestDTO authRequest) {
-	    try {
-	        Authentication authentication = authenticationManager.authenticate(
-	                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-	        return authentication.isAuthenticated();
-	    } catch (AuthenticationException e) {
-	        System.out.println("Autentifikacija nije uspela: " + e.getMessage());
-	        return false;
-	    }
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+		return authentication.isAuthenticated();
+
 	}
 
 }

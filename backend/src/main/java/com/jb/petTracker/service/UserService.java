@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.jb.petTracker.dto.DeviceDTO;
 import com.jb.petTracker.model.Device;
 import com.jb.petTracker.model.User;
 
@@ -15,8 +16,8 @@ public interface UserService{
 	boolean save(User user);
 	User update(User user);
 	boolean addDevice(String token, Device device);
-	List<Device> getDevices(String username);
-	String login(String username);
+	List<DeviceDTO> getDevices(String username);
+	String generateToken(String username);
 	boolean addToGroup(String username, ObjectId groupId);
 	User extractUserFromToken(String token);
 }

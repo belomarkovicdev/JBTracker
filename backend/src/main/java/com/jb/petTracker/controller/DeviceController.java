@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jb.petTracker.dto.DeviceDTO;
 import com.jb.petTracker.dto.SaveDeviceDTO;
 import com.jb.petTracker.model.Device;
 import com.jb.petTracker.service.UserService;
@@ -20,19 +21,20 @@ import com.jb.petTracker.service.UserService;
 @RequestMapping("/api/device")
 public class DeviceController {
 	private final UserService userService;
-	
+
 	public DeviceController(UserService userService) {
 		super();
 		this.userService = userService;
 	}
-	
+
 	@PostMapping("/add")
-	public void addNewDevice(@RequestBody SaveDeviceDTO deviceDTO, @RequestHeader("Authorization") String token) {
-		userService.addDevice(token, new Device(deviceDTO));
+	public ResponseEntity<Boolean> addNewDevice(@RequestBody SaveDeviceDTO deviceDTO, @RequestHeader("Authorization") String token) {
+		boolean status = userService.addDevice(token, new Device(deviceDTO));
+		return new ResponseEntity<>(status,HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/user/{username}")
-	public ResponseEntity<List<Device>> getDevices(@PathVariable String username){
-		return new ResponseEntity<>(userService.getDevices(username),HttpStatus.OK);
+	public ResponseEntity<List<DeviceDTO>> getDevices(@PathVariable String username) {
+		return new ResponseEntity<>(userService.getDevices(username), HttpStatus.OK);
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jb.petTracker.dto.DeviceDTO;
 import com.jb.petTracker.model.AuthUser;
 import com.jb.petTracker.model.Device;
 import com.jb.petTracker.model.User;
@@ -65,13 +66,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public List<Device> getDevices(String username) {
+	public List<DeviceDTO> getDevices(String username) {
 		Optional<User> user = findByUsername(username);
-		return user.get().getDevices();
+		return user.get().getDevices().stream().map(device -> new DeviceDTO(device)).toList();
 	}
 
 	@Override
-	public String login(String username) {
+	public String generateToken(String username) {
 		Optional<User> user = findByUsername(username);
 		return jwtService.generateToken(user.get());
 	}
@@ -88,7 +89,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	public User extractUserFromToken(String token) {
 		String username = jwtService.extractUsername(token);
 		User user = findByUsername(username).get();
-		System.out.println(user);
 		return user;
 	}
 

@@ -5,12 +5,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jb.petTracker.model.Group;
+import com.jb.petTracker.dto.GroupDTO;
 import com.jb.petTracker.service.GroupService;
 
 @RestController
@@ -25,14 +25,14 @@ public class GroupController {
 	}
 
 	@PostMapping()
-	public ResponseEntity<String> createGroup(@RequestBody Group newGroup,
+	public ResponseEntity<GroupDTO> createGroup(@RequestParam String groupName,
 			@RequestHeader("Authorization") String token) {
-		groupService.create(newGroup, token);
-		return new ResponseEntity<>("Grupa je uspesno kreirana", HttpStatus.OK);
+		GroupDTO group = groupService.create(groupName, token);
+		return new ResponseEntity<>(group, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Group> findById(@PathVariable String id) {
+	public ResponseEntity<GroupDTO> findById(@PathVariable String id) {
 		return new ResponseEntity<>(groupService.findById(id), HttpStatus.OK);
 	}
 }

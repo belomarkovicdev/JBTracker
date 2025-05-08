@@ -1,7 +1,8 @@
 package com.jb.petTracker.service;
-import com.jb.petTracker.model.Group;
+
+import com.jb.petTracker.dto.GroupDTO;
 
 public interface GroupService {
-	Group create(Group group, String token);
-	Group findById(String id);
+	GroupDTO create(String groupName, String token);
+	GroupDTO findById(String id);
 }

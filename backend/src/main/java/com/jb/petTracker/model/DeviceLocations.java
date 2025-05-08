@@ -27,9 +27,9 @@ public class DeviceLocations {
 	private LocalDate date;
 	private List<Location> locations;
 	
-	public DeviceLocations(ReceiveLocationDTO traccarLocationDTO){
-		this.deviceId = traccarLocationDTO.getId();
-		this.locations.add(new Location(traccarLocationDTO));
+	public DeviceLocations(ReceiveLocationDTO receiveLocationDTO){
+		this.deviceId = receiveLocationDTO.getId();
+		this.locations.add(new Location(receiveLocationDTO));
 		this.date = LocalDate.now();
 	}
 	public DeviceLocations(String deviceId) {

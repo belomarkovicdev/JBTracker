@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jb.petTracker.model.Group;
+import com.jb.petTracker.dto.GroupDTO;
 import com.jb.petTracker.model.User;
 import com.jb.petTracker.service.GroupService;
 import com.jb.petTracker.service.UserService;
@@ -26,9 +26,9 @@ public class MapController {
 	}
 
 	@GetMapping()
-	public ResponseEntity<Group> getGroupLocations(@RequestHeader("Authorization") String token) {
+	public ResponseEntity<GroupDTO> getGroupLocations(@RequestHeader("Authorization") String token) {
 		User user = userService.extractUserFromToken(token.substring(7));
-		Group group = groupService.findById(user.getGroupId().toString());
+		GroupDTO group = groupService.findById(user.getGroupId().toString());
 		return new ResponseEntity<>(group, HttpStatus.OK);
 	}
 }

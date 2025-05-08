@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jb.petTracker.dto.DeviceLocationsDTO;
 import com.jb.petTracker.dto.ReceiveLocationDTO;
-import com.jb.petTracker.model.DeviceLocations;
 import com.jb.petTracker.service.LocationService;
 
 @RestController
@@ -28,20 +28,20 @@ public class LocationController {
 	}
 
 	@PostMapping("/traccar")
-	public void receiveLocation(@ModelAttribute ReceiveLocationDTO receiveLocationDTO) {
+	public void receiveForm(@ModelAttribute ReceiveLocationDTO receiveLocationDTO) {
 		locationService.saveLocation(receiveLocationDTO);
 		messagingTemplate.convertAndSend("/topic/locations", receiveLocationDTO);
 	}
 
 	@PostMapping()
-	public void receiveBody(@RequestBody ReceiveLocationDTO receiveLocationDTO) {
+	public void receiveJson(@RequestBody ReceiveLocationDTO receiveLocationDTO) {
 		locationService.saveLocation(receiveLocationDTO);
 		messagingTemplate.convertAndSend("/topic/locations", receiveLocationDTO);
 
 	}
 
 	@GetMapping("/device/{id}")
-	public ResponseEntity<DeviceLocations> getLocationHistory(@PathVariable String id) {
+	public ResponseEntity<DeviceLocationsDTO> getLocationHistory(@PathVariable String id) {
 		return new ResponseEntity<>(locationService.getLocationHistory(id), HttpStatus.OK);
 	}
 }

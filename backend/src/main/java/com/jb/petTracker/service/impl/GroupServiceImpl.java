@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.jb.petTracker.dto.GroupDTO;
 import com.jb.petTracker.model.Device;
 import com.jb.petTracker.model.DeviceLocations;
 import com.jb.petTracker.model.Group;
@@ -30,26 +31,35 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
-	public Group create(Group group, String token) {
+//	Creates new group and adds all user devices to it
+	public GroupDTO create(String groupName, String token) {
+		Group group = new Group();
+		group.setName(groupName);
 		User user = userService.extractUserFromToken(token.substring(7));
-		List<DeviceLocations> deviceLocations = new ArrayList<>();
-		for (Device device : user.getDevices()) {
-			deviceLocations.add(locationService.save(new DeviceLocations(device.getDeviceId())));
-		}
+		List<DeviceLocations> deviceLocations = getAllDeviceLocations(user);
 		group.setDeviceLocations(deviceLocations);
 		Group createdGroup = this.groupRepository.save(group);
 		user.setGroupId(createdGroup.getId());
 		userService.update(user);
-		return createdGroup;
+		return new GroupDTO(createdGroup);
+	}
+
+	private List<DeviceLocations> getAllDeviceLocations(User user) {
+		List<DeviceLocations> deviceLocations = new ArrayList<>();
+		for (Device device : user.getDevices()) {
+			DeviceLocations location = locationService.save(new DeviceLocations(device.getDeviceId()));
+			deviceLocations.add(location);
+		}
+		return deviceLocations;
 	}
 
 	@Override
-	public Group findById(String id) {
+	public GroupDTO findById(String id) {
 		Optional<Group> group = groupRepository.findById(id);
 		if (group.isPresent()) {
-			return group.get();
+			return new GroupDTO(group.get());
 		} else {
-			return new Group();
+			return new GroupDTO();
 		}
 	}
 }

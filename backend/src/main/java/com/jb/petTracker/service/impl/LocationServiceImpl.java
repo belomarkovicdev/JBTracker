@@ -2,6 +2,7 @@ package com.jb.petTracker.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.jb.petTracker.dto.DeviceLocationsDTO;
 import com.jb.petTracker.dto.ReceiveLocationDTO;
 import com.jb.petTracker.model.DeviceLocations;
 import com.jb.petTracker.model.Location;
@@ -19,8 +20,8 @@ public class LocationServiceImpl implements LocationService {
 	}
 
 	@Override
-	public DeviceLocations getLocationHistory(String deviceId) {
-		return locationMongoRepository.findByDeviceId(deviceId);
+	public DeviceLocationsDTO getLocationHistory(String deviceId) {
+		return new DeviceLocationsDTO(locationMongoRepository.findByDeviceId(deviceId));
 	}
 
 	@Override
