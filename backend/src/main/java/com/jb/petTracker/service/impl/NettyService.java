@@ -1,6 +1,5 @@
 package com.jb.petTracker.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import io.netty.bootstrap.ServerBootstrap;
@@ -14,12 +13,6 @@ import jakarta.annotation.PostConstruct;
 @Component
 public class NettyService {
 	private final int PORT = 5015;
-	private final HuabaoHandler huabaoHandler;
-
-	@Autowired
-	public NettyService(HuabaoHandler huabaoHandler) {
-		this.huabaoHandler = huabaoHandler;
-	}
 
 	@PostConstruct
 	public void start() throws Exception {
@@ -33,11 +26,12 @@ public class NettyService {
 					protected void initChannel(SocketChannel ch) {
 						ch.pipeline().addLast(new HuabaoFrameDecoder());
 						ch.pipeline().addLast(new HuabaoMessageDecoder());
-						ch.pipeline().addLast(huabaoHandler);
+						// Kreiramo novu instancu handlera za svaku konekciju
+						ch.pipeline().addLast(new HuabaoHandler());
 					}
 				});
 
-		bootstrap.bind("0.0.0.0",PORT).sync();
+		bootstrap.bind("0.0.0.0", PORT).sync();
 		System.out.println("📡 Huabao TCP server running on port " + PORT);
 	}
 }
